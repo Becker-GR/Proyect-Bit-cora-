@@ -1,0 +1,174 @@
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+					<!-- Tarjeta 1 -->
+					<div class="mt-2 rounded-2xl border border-teal-300/50 bg-[#0e1726]/50 p-4 shadow-lg flex flex-col justify-between">
+						<div>
+							<h3 class="text-[14px] font-semibold text-teal-300">Estatus</h3>
+							<p class="text-xs text-slate-400">Ciclo de Vida del Servicio</p>
+						</div>
+					
+						<div class="relative h-36 mt-3 flex items-center justify-center">
+							<canvas id="charEstatus"></canvas>
+						</div>
+					</div>
+
+					<!-- Tarjeta 2 -->
+					 <div class="mt-2 rounded-2xl border border-teal-300/50 bg-[#0e1726]/50 p-4 shadow-lg flex flex-col justify-between">
+						<div>
+							<h3 class="text-[14px] font-semibold text-teal-300">Equipos por Tipo</h3>
+							<p class="text-xs text-slate-400">Laptops, PCs, Servidores e Impresoras</p>
+						</div>
+					
+						<div class="relative h-36 mt-3 flex items-center justify-center">
+							<canvas id="charEquipos"></canvas>
+						</div>
+					</div>
+
+					<!-- Tarjeta 3 -->
+					 <div class="mt-2 rounded-2xl border border-teal-300/50 bg-[#0e1726]/50 p-4 shadow-lg flex flex-col justify-between">
+						<div>
+							<h3 class="text-[14px] font-semibold text-teal-300">Tendencia de Mantenimientos</h3>
+							<p class="text-xs text-slate-400">Volumen atendido en los últimos meses</p>
+						</div>
+					
+						<div class="relative h-36 mt-3">
+							<canvas id="chartTendencia"></canvas>
+						</div>
+					 </div>
+				</div>
+
+<script>
+	import Chart from 'chart.js/auto';
+
+	const allDropdown = document.querySelectorAll<HTMLDetailsElement>('.custom-dropdown');
+
+	allDropdown.forEach((dropdown) => {
+		const label = dropdown.querySelector('.dropdown-label');
+		const options = dropdown?.querySelectorAll('.dropdown-option');
+
+		options?.forEach((btn) => {
+		btn.addEventListener('click', () => {
+			if (label && btn.textContent) {
+				label.textContent = btn.textContent.trim();
+				label.classList.remove('text-slate-300', 'font-medium');
+				label.classList.add('text-teal-300', 'font-medium');
+			}
+			dropdown.removeAttribute('open');
+		});
+	});
+});
+
+
+document.addEventListener('click', (e) => {
+	if (e.target instanceof Node) {
+		allDropdown.forEach((dropdown) => {
+			if (!dropdown.contains(e.target as Node)) {
+				dropdown.removeAttribute('open');
+			}
+		});
+	}
+});
+
+// - - - - - - - - - - Graficos - - - - - - - - - - -
+
+const ctxEstatus = document.getElementById('charEstatus') as HTMLCanvasElement;
+if (ctxEstatus) {
+	const datosEstatus = [1, 1, 1];
+	const total = datosEstatus.reduce((acc, val) => acc + val, 0);
+	const estaVacio = total === 0;
+
+	new Chart(ctxEstatus, {
+		type: 'doughnut',
+		data: {
+			labels: estaVacio ? ['Sin datos'] : ['Concluidos', 'En proceso', 'Pendiente'],
+			datasets: [{
+				data: estaVacio ? [1] : datosEstatus,
+				backgroundColor: estaVacio
+					? ['rgba(255, 255, 255, 0.08)']
+					: ['#2dd4bf', '#0e1726', '#22d3ee'],
+				borderWidth: 0,
+			}]
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			plugins: {
+				legend: {
+					position: 'right',
+					labels: {
+						color: '#94a3b8',
+						font: { size: 10 },
+						boxWidth: 10 
+					}
+				},
+				tooltip: {
+					enabled: !estaVacio
+				}
+			},
+			cutout: '60%'
+			
+		}
+		
+	});
+}
+
+const ctxEquipos = document.getElementById('charEquipos') as HTMLCanvasElement;
+if (ctxEquipos) {
+	new Chart(ctxEquipos, {
+		type: 'bar',
+		data: {
+			labels: ['Laptop', 'PC', 'Servidor', 'Impresora'],
+			datasets: [{
+				data: [1, 2, 3, 4],
+				backgroundColor: '#22d3ee',
+				borderRadius: 5
+			}]
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			plugins: { legend: {display: false} },
+			scales: {
+				x: {
+					ticks: {  color: '#94a3b8', font: { size: 9 }  },
+					grid: { color: 'rgba(255, 255, 255, 0.05)' }
+				}
+			}
+		}
+	});
+}
+
+const ctxTendencia = document.getElementById('chartTendencia') as HTMLCanvasElement;
+if (ctxTendencia) {
+	new Chart(ctxTendencia, {
+		type: 'line',
+		data: {
+			labels: ['May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct'],
+			datasets: [{
+				data: [4, 8, 6, 14, 12, 20],
+				borderColor: '#2dd4bf',
+				backgroundColor: 'rgba(45, 212, 191, 0.15)',
+				fill: true,
+				tension: 0.4,
+				pointRadius: 2,
+				pointBackgroundColor: '#2dd4bf'
+			}]
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			plugins: { legend: { display: false } },
+			scales: {
+				x: {
+					ticks: { color: '#94a3b8', font: { size: 9 } },
+					grid: { display: false }
+				},
+				y: {
+					ticks: { color: '#94a3b8', font: { size: 9 } },
+					grid: { color: 'rgba(255, 255, 255, 0.05)' }
+				}
+			}
+		}
+	});
+}
+
+</script>

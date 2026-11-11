@@ -1,0 +1,219 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<aside class="fixed right-4 top-2 bottom-4 w-50 bg-[#0e1726] text-white p-4 rounded-2xl shadow-xl border border-teal-300 bg-linear-to-br via-cyan-800/50">
+				<h2 class="font-bold text-xl mb-4 flex items-center gap-3 justify-between border-b border-teal-300/50 pb-2">
+					Editor
+					<Icon name="lucide:brush" class="w-5 h-6 text-teal-300" />
+				</h2>
+				
+				<nav class="flex flex-col gap-3">
+				
+                    <details class="relative group pb-4 mb-4 border-b border-teal-300/50" id="profile-dropdown">
+                        <summary class="w-full font-bold flex items-center gap-3 px-3 py-1 justify-center rounded-2xl border border-teal-300 cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95 list-none [&::-webkit-details-marker]:hidden select-none">
+                            <Icon name="lucide:user" class="w-5 h-5 text-teal-300" />
+                            <span>Perfil</span>
+                            <Icon name="lucide:chevron-down" class="w-5 h-5 text-teal-300 ml-auto transition-transform duration-200 group-open:rotate-180" />
+                        </summary>
+
+                        <div class="absolute right-0 top-full mt-2 w-56 z-50 bg-[#0e1726]/95 border border-teal-300/60 rounded-2xl p-3 shadow-2xl shadow-black/80 backdrop-blur-md flex flex-col gap-2">
+                            <div class="flex items-center gap-3 p-2 bg-[#0e1626] rounded-xl border border-teal-300/20">
+                                <div class="w-10 h-10 rounded-full bg-teal-400/20 border border-teal-300/50 flex items-center justify-center shrink-0 overflow-hidden">
+                                    <Icon name="lucide:user" class="w-6 h-6 text-teal-300" />
+                                </div>
+
+                            <div class="overflow-hidden">
+                                <p class="text-xs font-bold text-white truncate">Admin TI</p>
+                                <p class="text-[10px] text-teal-300/70 truncate">Soporte Técnico</p>
+                            </div>
+                        </div>
+
+                            <div class="h-px bg-teal-300 my-0.5"></div>
+
+                            <button type="button" class="w-full flex items-center gap-2.5 px-2.5 py-1.5 text-xs text-slate-200 hover:text-teal-300 hover:bg-teal-300/10 rounded-xl transition-colors cursor-pointer text-left duration-200 hover:scale-105 active:scale-95">
+                                <Icon name="lucide:palette" class="w-4 h-4 text-teal-300" />
+                                <span>Personalización</span>
+                            </button>
+
+                            <button type="button" class="w-full flex items-center gap-2.5 px-2.5 py-1.5 text-xs text-slate-200 hover:text-teal-300 hover:bg-teal-300/10 rounded-xl transition-colors cursor-pointer text-left duration-200 hover:scale-105 active:scale-95">
+                                <Icon name="lucide:circle-help" class="w-4 h-4 text-teal-300" />
+                                <span>FAQ</span>
+                            </button>
+
+                        </div>
+                    </details>
+
+					<fieldset id="form-editor" disabled class="flex flex-col gap-3 transition-all duration-300 opacity-40 pointer-events-none select-none">
+						<div class="relative">
+							<Icon name="lucide:calendar" class="w-4 h-4 text-teal-300 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+							<input
+								type="date"
+								name="fecha"
+								class="w-full pl-9 pr-3 py-1 text-sm rounded-2xl bg-[#0e1727] text-slate-300 border border-teal-300/50 focus:outline-none focus:border-teal-300 cursor-pointer scheme-dark [&::-sm webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-70"
+							/>
+						</div>
+
+						<details class="custom-dropdown relative group">
+							<summary class="flex items-center justify-between w-full px-3 py-1 text-sm rounded-2xl bg-[#0e1726] text-white border border-teal-300/50 hover:border-teal-300 cursor-pointer transition-colors list-none [&::-webkit-details-marker]:hidden select-none">
+								<span class="dropdown-label text-slate-300 text-xs">Sucursal</span>
+								<Icon name="lucide:chevron-down" class="w-4 h-4 text-teal-300 transition-transform duration-200 group-open:rotate-180" />
+							</summary>
+
+							<div class="absolute left-0 right-0 mt-1.5 z-50 bg-[#0e1726] border border-teal-300/50 rounded-2xl shadow-xl shadow-black/50 py-1 overflow-hidden backdrop-blur-md">
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 1</button>
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 2</button>
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 3</button>
+							</div>
+						</details>
+
+						<details class="custom-dropdown relative group">
+							<summary class="flex items-center justify-between w-full px-3 py-1 text-sm rounded-2xl bg-[#0e1726] text-white border border-teal-300/50 hover:border-teal-300 cursor-pointer transition-colors list-none [&::-webkit-details-marker]:hidden select-none">
+								<span class="dropdown-label text-slate-300 text-xs">Área</span>
+								<Icon name="lucide:chevron-down" class="w-4 h-4 text-teal-300 transition-transform duration-200 group-open:rotate-180" />
+							</summary>
+
+							<div class="absolute left-0 right-0 mt-1.5 z-50 bg-[#0e1726] border border-teal-300/50 rounded-2xl shadow-xl shadow-black/50 py-1 overflow-hidden backdrop-blur-md">
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 1</button>
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 2</button>
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 3</button>
+							</div>
+						</details>
+
+						<div class="relative">
+							<Icon name="lucide:user-circle" class="w-4 h-4 text-teal-300 absolute left-3 top-1/2 -translate-y-1/2" />
+							<input
+								type="text"
+								placeholder="Per. Asignada"
+								class="w-full pl-9 pr-3 py-1 text-sm rounded-2xl bg-[#0e1727] text-white placeholder:text-slate-400 border border-teal-300/50 focus:outline-none focus:border-teal-300"
+							/>
+						</div>
+
+						<details class="custom-dropdown relative group">
+							<summary class="flex items-center justify-between w-full px-3 py-1 text-sm rounded-2xl bg-[#0e1726] text-white border border-teal-300/50 hover:border-teal-300 cursor-pointer transition-colors list-none [&::-webkit-details-marker]:hidden select-none">
+								<span class="dropdown-label text-slate-400 text-xs">Tipo de Equipo</span>
+								<Icon name="lucide:chevron-down" class="w-4 h-4 text-teal-300 transition-transform duration-200 group-open:rotate-180" />
+							</summary>
+
+							<div class="absolute left-0 right-0 mt-1.5 z-50 bg-[#0e1726] border border-teal-300/50 rounded-2xl shadow-xl shadow-black/50 py-1 overflow-hidden backdrop-blur-md">
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 1</button>
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 2</button>
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 3</button>
+							</div>
+						</details>
+
+						<div class="relative">
+							<Icon name="lucide:computer" class="w-4 h-4 text-teal-300 absolute left-3 top-1/2 -translate-y-1/2" />
+							<input
+								type="text"
+								placeholder="Marca y Modelo"
+								class="w-full pl-9 pr-3 py-1 text-sm rounded-2xl bg-[#0e1727] text-white placeholder:text-slate-400 border border-teal-300/50 focus:outline-none focus:border-teal-300"
+							/>
+						</div>
+
+						<div class="relative">
+							<Icon name="lucide:barcode" class="w-4 h-4 text-teal-300 absolute left-3 top-1/2 -translate-y-1/2" />
+							<input
+								type="text"
+								placeholder="Num. de Serie"
+								class="w-full pl-9 pr-3 py-1 text-sm rounded-2xl bg-[#0e1727] text-white placeholder:text-slate-400 border border-teal-300/50 focus:outline-none focus:border-teal-300"
+							/>
+						</div>
+
+						<details class="custom-dropdown relative group">
+							<summary class="flex items-center justify-between w-full px-3 py-1 text-sm rounded-2xl bg-[#0e1726] text-white border border-teal-300/50 hover:border-teal-300 cursor-pointer transition-colors list-none [&::-webkit-details-marker]:hidden select-none">
+								<span class="dropdown-label text-slate-300 text-xs">Tipo de Servicio</span>
+								<Icon name="lucide:chevron-down" class="w-4 h-4 text-teal-300 transition-transform duration-200 group-open:rotate-180" />
+							</summary>
+
+							<div class="absolute left-0 right-0 mt-1.5 z-50 bg-[#0e1726] border border-teal-300/50 rounded-2xl shadow-xl shadow-black/50 py-1 overflow-hidden backdrop-blur-md">
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 1</button>
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 2</button>
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 3</button>
+							</div>
+						</details>
+
+						<details class="custom-dropdown relative group">
+							<summary class="flex items-center justify-between w-full px-3 py-1 text-sm rounded-2xl bg-[#0e1726] text-white border border-teal-300/50 hover:border-teal-300 cursor-pointer transition-colors list-none [&::-webkit-details-marker]:hidden select-none">
+								<span class="dropdown-label text-slate-300 text-xs">Estatus</span>
+								<Icon name="lucide:chevron-down" class="w-4 h-4 text-teal-300 transition-transform duration-200 group-open:rotate-180" />
+							</summary>
+
+							<div class="absolute left-0 right-0 mt-1.5 z-50 bg-[#0e1726] border border-teal-300/50 rounded-2xl shadow-xl shadow-black/50 py-1 overflow-hidden backdrop-blur-md">
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 1</button>
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 2</button>
+								<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="opcion1">Opcion 3</button>
+							</div>
+						</details>
+
+						<button type="button" class="font-bold flex items-center gap-2 px-3 py-0.5 justify-center rounded-2xl bg-teal-300 cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95">
+							<Icon name="lucide:check-circle" class="w-5 h-5" />
+							<span>Confirmar</span>
+						</button>
+					</fieldset>
+
+				</nav>
+			</aside>
+
+<script>
+	// Listas Desplegables
+
+    const allDropdown = document.querySelectorAll<HTMLDetailsElement>('.custom-dropdown');
+    const profileMenu = document.getElementById('profile-dropdown');
+
+	allDropdown.forEach((dropdown) => {
+		const label = dropdown.querySelector('.dropdown-label');
+		const options = dropdown?.querySelectorAll('.dropdown-option');
+
+		options?.forEach((btn) => {
+		btn.addEventListener('click', () => {
+			if (label && btn.textContent) {
+				label.textContent = btn.textContent.trim();
+				label.classList.remove('text-slate-300', 'font-medium');
+				label.classList.add('text-teal-300', 'font-medium');
+			}
+			dropdown.removeAttribute('open');
+		});
+	});
+});
+
+
+document.addEventListener('click', (e) => {
+	if (e.target instanceof Node) {
+		allDropdown.forEach((dropdown) => {
+			if (!dropdown.contains(e.target as Node)) {
+				dropdown.removeAttribute('open');
+			}
+		});
+        if (profileMenu && !profileMenu.contains(e.target as Node)) {
+            profileMenu.removeAttribute('open');
+        }
+	}
+});
+
+	// Desb. Funciones Sidebar Izquierdo + Derecho
+
+const btnNuevo = document.getElementById('btn-nuevo');
+const btnCancelar = document.getElementById('btn-cancelar');
+const formEditor = document.getElementById('form-editor');
+
+btnNuevo?.addEventListener('click', () => {
+	if (formEditor) {
+		formEditor.removeAttribute('disabled');
+		formEditor.classList.remove('opacity-40', 'pointer-events-none', 'select-none');
+
+		const primerInput = formEditor.querySelector('input');
+		primerInput?.focus();
+	}
+});
+
+btnCancelar?.addEventListener('click', () => {
+	if (formEditor) {
+		formEditor.setAttribute('disabled', 'true');
+		formEditor.classList.add('opacity-40', 'pointer-events-none', 'select-none');
+
+		formEditor.querySelectorAll('input').forEach((input) => (input.value = ''));
+	}
+});
+
+</script>

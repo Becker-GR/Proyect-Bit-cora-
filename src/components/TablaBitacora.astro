@@ -1,0 +1,76 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<div class="mt-4 flex flex-col gap-2">
+
+	<div class="grid grid-cols-[90px_1.2fr_1.8fr_1.4fr_120px_60px] gap-4 px-5 py-2 text-teal-300 text-[13px] font-semibold select-none text-shadow-lg text-shadow-teal-600 border border-teal-300/50 rounded-2xl bg-[#0e1627]/50">
+		<span>Fecha</span>
+		<span>Área / Sucursal</span>
+		<span>Equipo & Modelo</span>
+		<span>Tipo de Servicio</span>
+		<span>Estatus</span>
+		<span>Evidencia</span>
+	</div>
+
+	<div id="contenedor-registros" class="flex flex-col gap-2.5">
+
+		<div class="grid grid-cols-[90px_1.2fr_1.8fr_1.4fr_120px_60px] gap-4 items-center px-5 py-2 rounded-2xl border border-teal-300/40 bg-[#0e1727]/50 shadow-lg shadow-black/40 hover:border-teal-300 hover:bg-[#0e1726]/80 transition-all duration-200">
+
+			<div>
+				<span class="text-slate-200 font-medium text-xs">07/11/2026</span>
+			</div>
+
+			<div class="min-w-0">
+				<div class="flex items-center gap-1.5 font-bold text-white text-xs">
+					<Icon name="lucide:building-2" class="w-3.5 h-3.5 text-teal-300 shrink-0" />
+					<span class="truncate">Contabilidad</span>
+				</div>
+
+				<div class="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5">
+					<Icon name="lucide:users" class="w-3.5 h-3.5 text-slate-400 shrink-0" />
+					<span class="truncate">Usuario</span>
+				</div>
+
+				<div class="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5">
+					<Icon name="lucide:map-pin" class="w-3.5 h-3.5 text-slate-400 shrink-0" />
+					<span class="truncate">209</span>
+				</div>
+			</div>
+
+			<div class="flex items-center gap-2.5 min-w-0">
+				<div class="w-8 h-8 rounded-lg bg-teal-300/10 border border-teal-300/50 flex items-center justify-center shrink-0">
+					<Icon name="lucide:monitor" class="w-4 h-4 text-teal-300" />
+				</div>
+				
+				<div class="overflow-hidden">
+					<p class="font-bold text-white text-xs truncate">Gigabyte</p>
+					<p class="text-[11px] text-slate-400 truncate">
+						PC de Escritorio <span class="text-teal-300/50">•</span> S/N <span class="text-slate-300">565673</span>
+					</p>
+				</div>
+			</div>
+
+			<div class="min-w-0">
+				<p class="font-medium text-slate-200 text-xs">Mantenimiento Preventivo</p>
+				<p class="text-[11px] text-slate-400 mt-0.5">Téc: Admin TI</p>
+			</div>
+			
+			<div>
+				<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-medium border border-emerald-500/40 bg-emerald-500/10 text-emerald-400">
+					<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+					Concluido
+				</span>
+			</div>
+
+			<div>
+				<div class="w-9 h-9 rounded-lg border border-teal-300/40 bg-teal-950/60 flex items-center justify-center overflow-hidden cursor-pointer hover:border-teal-300 transition-colors shadow-sm">
+					<Icon name="lucide:image" class="w-4 h-4 text-teal-300/80" />
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
