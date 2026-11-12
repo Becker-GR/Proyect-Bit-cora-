@@ -15,61 +15,70 @@ import { Icon } from "astro-icon/components";
 
 	<div id="contenedor-registros" class="flex flex-col gap-2.5">
 
-		<div class="grid grid-cols-[90px_1.2fr_1.8fr_1.4fr_120px_60px] gap-4 items-center px-5 py-2 rounded-2xl border border-teal-300/40 bg-[#0e1727]/50 shadow-lg shadow-black/40 hover:border-teal-300 hover:bg-[#0e1726]/80 transition-all duration-200">
+			<template id="template-registro">
+				<div class="tarjeta-registro grid grid-cols-[90px_1.2fr_1.8fr_1.4fr_120px_60px] gap-4 items-center px-5 py-2 rounded-2xl border border-teal-300/40 bg-[#0e1727]/50 shadow-lg shadow-black/40 hover:border-teal-300 hover:bg-[#0e1726]/80 transition-all duration-200">
+					<div>
+						<span data-slot="fecha" class="text-slate-200 font-medium text-xs">07/11/2026</span>
+					</div>
 
-			<div>
-				<span class="text-slate-200 font-medium text-xs">07/11/2026</span>
-			</div>
+					<div class="min-w-0">
+						<div class="flex items-center gap-1.5 font-bold text-white text-xs">
+							<Icon name="lucide:building-2" class="w-3.5 h-3.5 text-teal-300 shrink-0" />
+							<span data-slot="area" class="truncate">Contabilidad</span>
+						</div>
 
-			<div class="min-w-0">
-				<div class="flex items-center gap-1.5 font-bold text-white text-xs">
-					<Icon name="lucide:building-2" class="w-3.5 h-3.5 text-teal-300 shrink-0" />
-					<span class="truncate">Contabilidad</span>
+						<div class="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5">
+							<Icon name="lucide:users" class="w-3.5 h-3.5 text-slate-400 shrink-0" />
+							<span data-slot="persona" class="truncate">Usuario</span>
+						</div>
+
+						<div class="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5">
+							<Icon name="lucide:map-pin" class="w-3.5 h-3.5 text-slate-400 shrink-0" />
+							<span data-slot="sucursal" class="truncate">209</span>
+						</div>
+					</div>
+
+					<div class="flex items-center gap-2.5 min-w-0">
+						<div class="w-8 h-8 rounded-lg bg-teal-300/10 border border-teal-300/50 flex items-center justify-center shrink-0">
+							<Icon name="lucide:monitor" class="w-4 h-4 text-teal-300" />
+						</div>
+						
+						<div class="overflow-hidden">
+							<p data-slot="marcaModelo" class="font-bold text-white text-xs truncate">Gigabyte</p>
+							
+							<div class="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5">
+								<Icon name="lucide:computer" class="w-3 h-3 text-slate-400 shrink-0" />
+								<span data-slot="tipoEquipo" class="truncate">PC de Escritorio</span>
+							</div>
+
+							<div class="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5">
+								<Icon name="lucide:barcode" class="w-3.5 h-3.5 text-slate-400 shrink-0" />
+								<span class="truncate">S/N <span data-slot="serie" class="text-slate-300">565673</span></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="min-w-0">
+						<p data-slot="tipoServicio" class="font-medium text-slate-200 text-xs truncate">Mantenimiento Preventivo</p>
+						
+						
+						<p class="text-[11px] text-slate-400 mt-0.5">Téc: Admin TI</p>
+					</div>
+					
+					<div>
+						<span data-slot="estatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium border border-emerald-500/40 bg-emerald-500/10 text-emerald-400">
+							<span data-slot="estatusDot" class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+							<span data-slot="estatusTexto">Concluido</span>
+						</span>
+					</div>
+
+					<div>
+						<div class="w-9 h-9 rounded-lg border border-teal-300/40 bg-teal-950/60 flex items-center justify-center overflow-hidden cursor-pointer hover:border-teal-300 transition-colors shadow-sm">
+							<Icon name="lucide:image" class="w-4 h-4 text-teal-300/80" />
+						</div>
+					</div>
 				</div>
-
-				<div class="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5">
-					<Icon name="lucide:users" class="w-3.5 h-3.5 text-slate-400 shrink-0" />
-					<span class="truncate">Usuario</span>
-				</div>
-
-				<div class="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5">
-					<Icon name="lucide:map-pin" class="w-3.5 h-3.5 text-slate-400 shrink-0" />
-					<span class="truncate">209</span>
-				</div>
-			</div>
-
-			<div class="flex items-center gap-2.5 min-w-0">
-				<div class="w-8 h-8 rounded-lg bg-teal-300/10 border border-teal-300/50 flex items-center justify-center shrink-0">
-					<Icon name="lucide:monitor" class="w-4 h-4 text-teal-300" />
-				</div>
-				
-				<div class="overflow-hidden">
-					<p class="font-bold text-white text-xs truncate">Gigabyte</p>
-					<p class="text-[11px] text-slate-400 truncate">
-						PC de Escritorio <span class="text-teal-300/50">•</span> S/N <span class="text-slate-300">565673</span>
-					</p>
-				</div>
-			</div>
-
-			<div class="min-w-0">
-				<p class="font-medium text-slate-200 text-xs">Mantenimiento Preventivo</p>
-				<p class="text-[11px] text-slate-400 mt-0.5">Téc: Admin TI</p>
-			</div>
-			
-			<div>
-				<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-medium border border-emerald-500/40 bg-emerald-500/10 text-emerald-400">
-					<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-					Concluido
-				</span>
-			</div>
-
-			<div>
-				<div class="w-9 h-9 rounded-lg border border-teal-300/40 bg-teal-950/60 flex items-center justify-center overflow-hidden cursor-pointer hover:border-teal-300 transition-colors shadow-sm">
-					<Icon name="lucide:image" class="w-4 h-4 text-teal-300/80" />
-				</div>
-			</div>
-
-		</div>
+			</template>
 
 	</div>
 
