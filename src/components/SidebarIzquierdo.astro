@@ -2,51 +2,143 @@
 import { Icon } from 'astro-icon/components';
 ---
 
-<aside class="fixed left-4 top-2 bottom-4 w-50 bg-[#0e1726] text-white p-4 rounded-2xl shadow-xl border border-teal-300 bg-linear-to-br via-cyan-800/50">
-				<h2 class="pb-2 font-bold text-xl mb-6 flex items-center gap-3 justify-between border-b border-teal-300/50">
-					Opciones
-					<Icon name="lucide:cog" class="w-5 h-6 text-teal-300 animate-[spin_7s_linear_infinite]" />
-				</h2>
+<!-- Botón flotante para desplegar el menú -->
+<button
+	type="button"
+	id="btn-abrir-sidebar-izq"
+	class="fixed left-8 top-3 z-40 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0e1726]/90 border border-teal-300/50 text-teal-300 hover:border-teal-300 hover:scale-105 active:scale-95 transition-all shadow-lg backdrop-blur-md cursor-pointer text-xs font-semibold"
+	title="Abrir menú"
+>
+	<Icon name="lucide:menu" class="w-4 h-4" />
+	<span>Menú</span>
+</button>
 
-				<nav class="flex flex-col gap-3">
-					<div class="relative">
-						<Icon name="lucide:search" class="w-4 h-4 text-teal-300 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-						<input
-							type="search"
-							placeholder="Buscar"
-							class="w-full pl-9 pr-3 py-1 text-sm rounded-2xl bg-[#0e1727] text-white placeholder:text-slate-400 border border-teal-300/50 focus:outline-none focus:border-teal-300"
-						/>
+<!-- Sidebar Desplegable -->
+<aside
+	id="sidebar-izq"
+	class="fixed left-4 top-2 bottom-4 w-50 bg-[#0e1726] text-white p-4 rounded-2xl shadow-2xl border border-teal-300 bg-linear-to-br via-cyan-800/50 z-50 -translate-x-[120%] transition-transform duration-300 ease-in-out"
+>
+	<h2 class="pb-2 font-bold text-xl mb-6 flex items-center justify-between border-b border-teal-300/50">
+		<span class="flex items-center gap-2">
+			Opciones
+			<Icon name="lucide:cog" class="w-5 h-6 text-teal-300 animate-[spin_7s_linear_infinite]" />
+		</span>
+		<button
+			type="button"
+			id="btn-cerrar-sidebar-izq"
+			class="p-1 rounded-lg text-slate-400 hover:text-teal-300 hover:bg-teal-300/10 transition-colors cursor-pointer"
+			title="Cerrar"
+		>
+			<Icon name="lucide:x" class="w-5 h-5" />
+		</button>
+	</h2>
+
+	<nav class="flex flex-col gap-3">
+		<details class="relative group pb-4 mb-2 border-b border-teal-300/50" id="profile-dropdown">
+			<summary class="w-full font-bold flex items-center gap-3 px-3 py-1 justify-center rounded-2xl border border-teal-300 cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95 list-none [&::-webkit-details-marker]:hidden select-none">
+				<Icon name="lucide:user" class="w-5 h-5 text-teal-300" />
+				<span>Perfil</span>
+				<Icon name="lucide:chevron-down" class="w-5 h-5 text-teal-300 ml-auto transition-transform duration-200 group-open:rotate-180" />
+			</summary>
+
+			<div class="absolute left-0 top-full mt-2 w-56 z-50 bg-[#0e1726]/95 border border-teal-300/60 rounded-2xl p-3 shadow-2xl shadow-black/80 backdrop-blur-md flex flex-col gap-2">
+				<div class="flex items-center gap-3 p-2 bg-[#0e1626] rounded-xl border border-teal-300/20">
+					<div class="w-10 h-10 rounded-full bg-teal-400/20 border border-teal-300/50 flex items-center justify-center shrink-0 overflow-hidden">
+						<Icon name="lucide:user" class="w-6 h-6 text-teal-300" />
 					</div>
 
-					<button type="button" id="btn-nuevo" class="font-bold flex items-center gap-2 px-3 py-0.5 justify-center rounded-2xl bg-teal-300 cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95">
-						<Icon name="lucide:plus" class="w-5 h-5" />
-						<span>Nuevo</span>
-					</button>
+					<div class="overflow-hidden">
+						<p class="text-xs font-bold text-white truncate">Admin TI</p>
+						<p class="text-[10px] text-teal-300/70 truncate">Soporte Técnico</p>
+					</div>
+				</div>
 
-					<button type="button" id="btn-seleccionar" class="font-bold flex items-center gap-2 px-3 py-0.5 justify-center rounded-2xl bg-teal-300 cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95">
-						<Icon name="lucide:check" class="w-4 h-4" />
-						<span>Seleccionar</span>
-					</button>
+				<div class="h-px bg-teal-300 my-0.5"></div>
 
-					<button type="button" id="btn-editar" class="font-bold flex items-center gap-2 px-3 py-0.5 justify-center rounded-2xl bg-teal-300 cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95">
-						<Icon name="lucide:pencil" class="w-4 h-4" />
-						<span>Editar</span>
-					</button>
+				<button type="button" class="w-full flex items-center gap-2.5 px-2.5 py-1.5 text-xs text-slate-200 hover:text-teal-300 hover:bg-teal-300/10 rounded-xl transition-colors cursor-pointer text-left duration-200 hover:scale-105 active:scale-95">
+					<Icon name="lucide:palette" class="w-4 h-4 text-teal-300" />
+					<span>Personalización</span>
+				</button>
 
-					<button type="button" id="btn-cancelar" class="font-bold flex items-center gap-2 px-3 py-0.5 justify-center rounded-2xl bg-teal-300 cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95">
-						<Icon name="lucide:x" class="w-4 h-4" />
-						<span>Cancelar</span>
-					</button>
+				<button type="button" class="w-full flex items-center gap-2.5 px-2.5 py-1.5 text-xs text-slate-200 hover:text-teal-300 hover:bg-teal-300/10 rounded-xl transition-colors cursor-pointer text-left duration-200 hover:scale-105 active:scale-95">
+					<Icon name="lucide:circle-help" class="w-4 h-4 text-teal-300" />
+					<span>FAQ</span>
+				</button>
+			</div>
+		</details>
 
-					<button type="button" id="btn-borrar" class="font-bold flex items-center gap-2 px-3 py-0.5 justify-center rounded-2xl bg-teal-300 cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95">
-						<Icon name="lucide:trash" class="w-5 h-5" />
-						<span>Borrar</span>
-					</button>
+		<div class="relative">
+			<Icon name="lucide:search" class="w-4 h-4 text-teal-300 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+			<input
+				type="search"
+				placeholder="Buscar"
+				class="w-full pl-9 pr-3 py-1 text-sm rounded-2xl bg-[#0e1727] text-white placeholder:text-slate-400 border border-teal-300/50 focus:outline-none focus:border-teal-300"
+			/>
+		</div>
 
-					<button type="button" class="font-bold flex items-center gap-2 px-3 py-0.5 justify-center rounded-2xl bg-teal-300 cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95">
-						<Icon name="lucide:filter" class="w-5 h-5" />
-						<span>Filtrar</span>
-					</button>
+		<button type="button" id="btn-seleccionar" class="font-bold flex items-center gap-2 px-3 py-0.5 justify-center rounded-2xl bg-teal-300 cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95">
+			<Icon name="lucide:check" class="w-4 h-4" />
+			<span>Seleccionar</span>
+		</button>
 
-				</nav>
-			</aside>
+		<button type="button" id="btn-editar" class="font-bold flex items-center gap-2 px-3 py-0.5 justify-center rounded-2xl bg-teal-300 cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95">
+			<Icon name="lucide:pencil" class="w-4 h-4" />
+			<span>Editar</span>
+		</button>
+
+		<button type="button" id="btn-cancelar" class="font-bold flex items-center gap-2 px-3 py-0.5 justify-center rounded-2xl bg-teal-300 cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95">
+			<Icon name="lucide:x" class="w-4 h-4" />
+			<span>Cancelar</span>
+		</button>
+
+		<button type="button" id="btn-borrar" class="font-bold flex items-center gap-2 px-3 py-0.5 justify-center rounded-2xl bg-teal-300 cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95">
+			<Icon name="lucide:trash" class="w-5 h-5" />
+			<span>Borrar</span>
+		</button>
+	</nav>
+</aside>
+
+<script>
+	const sidebar = document.getElementById('sidebar-izq');
+	const btnAbrir = document.getElementById('btn-abrir-sidebar-izq');
+	const btnCerrar = document.getElementById('btn-cerrar-sidebar-izq');
+	const profileMenu = document.getElementById('profile-dropdown');
+
+	const abrirSidebar = () => {
+		sidebar?.classList.remove('-translate-x-[120%]');
+		sidebar?.classList.add('translate-x-0');
+	};
+
+	const cerrarSidebar = () => {
+		sidebar?.classList.remove('translate-x-0');
+		sidebar?.classList.add('-translate-x-[120%]');
+		profileMenu?.removeAttribute('open');
+	};
+
+	btnAbrir?.addEventListener('click', (e) => {
+		e.stopPropagation();
+		abrirSidebar();
+	});
+
+	btnCerrar?.addEventListener('click', (e) => {
+		e.stopPropagation();
+		cerrarSidebar();
+	});
+
+	// Cerrar automáticamente si se hace clic afuera del sidebar o del menú de perfil
+	document.addEventListener('click', (e) => {
+		if (profileMenu && !profileMenu.contains(e.target as Node)) {
+			profileMenu.removeAttribute('open');
+		}
+
+		if (
+			e.target instanceof Node &&
+			sidebar &&
+			!sidebar.contains(e.target) &&
+			btnAbrir &&
+			!btnAbrir.contains(e.target)
+		) {
+			cerrarSidebar();
+		}
+	});
+</script>

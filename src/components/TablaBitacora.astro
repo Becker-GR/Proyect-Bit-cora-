@@ -2,7 +2,23 @@
 import { Icon } from "astro-icon/components";
 ---
 
-<div class="mt-4 flex flex-col gap-2">
+<div class="mt-6 flex flex-col gap-2">
+
+	<div class="flex items-center justify-between mb-1 px-1">
+		<div class="border border-teal-300/50 rounded-xl px-2 py-1 bg-[#0e1627]/50">
+			<h2 class="text-sm font-bold text-teal-300">Historial de Mantenimientos</h2>
+			<p class="text-xs text-white">Equipos registrados en bitácora</p>
+		</div>
+
+		<button
+			type="button"
+			id="btn-nuevo"
+			class="font-bold flex items-center gap-2 px-3.5 py-1.5 justify-center rounded-2xl bg-teal-300 text-[#0e1726] cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95 shadow-lg shadow-teal-300/10 text-xs"
+		>
+			<Icon name="lucide:plus" class="w-4 h-4 stroke-[3]" />
+			<span>Nuevo Registro</span>
+		</button>
+	</div>
 
 	<div class="grid grid-cols-[90px_1.2fr_1.8fr_1.4fr_120px_60px] gap-4 px-5 py-2 text-teal-300 text-[13px] font-semibold select-none text-shadow-lg text-shadow-teal-600 border border-teal-300/50 rounded-2xl bg-[#0e1627]/50">
 		<span>Fecha</span>

@@ -3,7 +3,7 @@
 					<div class="mt-2 rounded-2xl border border-teal-300/50 bg-[#0e1726]/50 p-4 shadow-lg flex flex-col justify-between">
 						<div>
 							<h3 class="text-[14px] font-semibold text-teal-300">Estatus</h3>
-							<p class="text-xs text-slate-400">Ciclo de Vida del Servicio</p>
+							<p class="text-xs text-white/80">Ciclo de Vida del Servicio</p>
 						</div>
 					
 						<div class="relative h-36 mt-3 flex items-center justify-center">
@@ -15,7 +15,7 @@
 					 <div class="mt-2 rounded-2xl border border-teal-300/50 bg-[#0e1726]/50 p-4 shadow-lg flex flex-col justify-between">
 						<div>
 							<h3 class="text-[14px] font-semibold text-teal-300">Equipos por Tipo</h3>
-							<p class="text-xs text-slate-400">Laptops, PCs, Servidores e Impresoras</p>
+							<p class="text-xs text-white/80">Laptops, PCs, Servidores e Impresoras</p>
 						</div>
 					
 						<div class="relative h-36 mt-3 flex items-center justify-center">
@@ -27,7 +27,7 @@
 					 <div class="mt-2 rounded-2xl border border-teal-300/50 bg-[#0e1726]/50 p-4 shadow-lg flex flex-col justify-between">
 						<div>
 							<h3 class="text-[14px] font-semibold text-teal-300">Tendencia de Mantenimientos</h3>
-							<p class="text-xs text-slate-400">Volumen atendido en los últimos meses</p>
+							<p class="text-xs text-white/80">Volumen atendido en los últimos meses</p>
 						</div>
 					
 						<div class="relative h-36 mt-3">
@@ -39,136 +39,174 @@
 <script>
 	import Chart from 'chart.js/auto';
 
-	const allDropdown = document.querySelectorAll<HTMLDetailsElement>('.custom-dropdown');
+	// - - - - - - - - - - Graficos - - - - - - - - - - -
 
-	allDropdown.forEach((dropdown) => {
-		const label = dropdown.querySelector('.dropdown-label');
-		const options = dropdown?.querySelectorAll('.dropdown-option');
+	let chartEstatus: any = null;
+	let chartEquipos: any = null;
 
-		options?.forEach((btn) => {
-		btn.addEventListener('click', () => {
-			if (label && btn.textContent) {
-				label.textContent = btn.textContent.trim();
-				label.classList.remove('text-slate-300', 'font-medium');
-				label.classList.add('text-teal-300', 'font-medium');
-			}
-			dropdown.removeAttribute('open');
-		});
-	});
-});
-
-
-document.addEventListener('click', (e) => {
-	if (e.target instanceof Node) {
-		allDropdown.forEach((dropdown) => {
-			if (!dropdown.contains(e.target as Node)) {
-				dropdown.removeAttribute('open');
+	const ctxEstatus = document.getElementById('charEstatus') as HTMLCanvasElement;
+	if (ctxEstatus) {
+		chartEstatus = new Chart(ctxEstatus, {
+			type: 'doughnut',
+			data: {
+				labels: ['Sin datos'],
+				datasets: [{
+					data: [1],
+					backgroundColor: ['rgba(255, 255, 255, 0.08)'],
+					borderWidth: 0,
+				}]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				plugins: {
+					legend: {
+						position: 'right',
+						labels: {
+							color: '#94a3b8',
+							font: { size: 10 },
+							boxWidth: 10 
+						}
+					},
+					tooltip: {
+						enabled: false
+					}
+				},
+				cutout: '60%'
 			}
 		});
 	}
-});
 
-// - - - - - - - - - - Graficos - - - - - - - - - - -
-
-const ctxEstatus = document.getElementById('charEstatus') as HTMLCanvasElement;
-if (ctxEstatus) {
-	const datosEstatus = [1, 1, 1];
-	const total = datosEstatus.reduce((acc, val) => acc + val, 0);
-	const estaVacio = total === 0;
-
-	new Chart(ctxEstatus, {
-		type: 'doughnut',
-		data: {
-			labels: estaVacio ? ['Sin datos'] : ['Concluidos', 'En proceso', 'Pendiente'],
-			datasets: [{
-				data: estaVacio ? [1] : datosEstatus,
-				backgroundColor: estaVacio
-					? ['rgba(255, 255, 255, 0.08)']
-					: ['#2dd4bf', '#0e1726', '#22d3ee'],
-				borderWidth: 0,
-			}]
-		},
-		options: {
-			responsive: true,
-			maintainAspectRatio: false,
-			plugins: {
-				legend: {
-					position: 'right',
-					labels: {
-						color: '#94a3b8',
-						font: { size: 10 },
-						boxWidth: 10 
-					}
-				},
-				tooltip: {
-					enabled: !estaVacio
-				}
+	const ctxEquipos = document.getElementById('charEquipos') as HTMLCanvasElement;
+	if (ctxEquipos) {
+		chartEquipos = new Chart(ctxEquipos, {
+			type: 'bar',
+			data: {
+				labels: ['Laptop', 'PC', 'Servidor', 'Impresora'],
+				datasets: [{
+					data: [0, 0, 0, 0],
+					backgroundColor: [
+						'#a855f7',
+						'#22d3ee',
+						'#34d399',
+						'#2f1095',
+					],
+					borderRadius: 5
+				}]
 			},
-			cutout: '60%'
-			
-		}
-		
-	});
-}
-
-const ctxEquipos = document.getElementById('charEquipos') as HTMLCanvasElement;
-if (ctxEquipos) {
-	new Chart(ctxEquipos, {
-		type: 'bar',
-		data: {
-			labels: ['Laptop', 'PC', 'Servidor', 'Impresora'],
-			datasets: [{
-				data: [1, 2, 3, 4],
-				backgroundColor: '#22d3ee',
-				borderRadius: 5
-			}]
-		},
-		options: {
-			responsive: true,
-			maintainAspectRatio: false,
-			plugins: { legend: {display: false} },
-			scales: {
-				x: {
-					ticks: {  color: '#94a3b8', font: { size: 9 }  },
-					grid: { color: 'rgba(255, 255, 255, 0.05)' }
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				plugins: { legend: { display: false } },
+				scales: {
+					x: {
+						ticks: { color: '#94a3b8', font: { size: 9 } },
+						grid: { color: 'rgba(255, 255, 255, 0.05)' }
+					},
+					y: {
+						beginAtZero: true,
+						ticks: { color: '#94a3b8', font: { size: 9 }, precision: 0 },
+						grid: { color: 'rgba(255, 255, 255, 0.05)' }
+					}
 				}
 			}
-		}
-	});
-}
+		});
+	}
 
-const ctxTendencia = document.getElementById('chartTendencia') as HTMLCanvasElement;
-if (ctxTendencia) {
-	new Chart(ctxTendencia, {
-		type: 'line',
-		data: {
-			labels: ['May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct'],
-			datasets: [{
-				data: [4, 8, 6, 14, 12, 20],
-				borderColor: '#2dd4bf',
-				backgroundColor: 'rgba(45, 212, 191, 0.15)',
-				fill: true,
-				tension: 0.4,
-				pointRadius: 2,
-				pointBackgroundColor: '#2dd4bf'
-			}]
-		},
-		options: {
-			responsive: true,
-			maintainAspectRatio: false,
-			plugins: { legend: { display: false } },
-			scales: {
-				x: {
-					ticks: { color: '#94a3b8', font: { size: 9 } },
-					grid: { display: false }
-				},
-				y: {
-					ticks: { color: '#94a3b8', font: { size: 9 } },
-					grid: { color: 'rgba(255, 255, 255, 0.05)' }
+	const ctxTendencia = document.getElementById('chartTendencia') as HTMLCanvasElement;
+	if (ctxTendencia) {
+		new Chart(ctxTendencia, {
+			type: 'line',
+			data: {
+				labels: ['May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct'],
+				datasets: [{
+					data: [4, 8, 6, 14, 12, 20],
+					borderColor: '#2dd4bf',
+					backgroundColor: 'rgba(45, 212, 191, 0.15)',
+					fill: true,
+					tension: 0.4,
+					pointRadius: 2,
+					pointBackgroundColor: '#2dd4bf'
+				}]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				plugins: { legend: { display: false } },
+				scales: {
+					x: {
+						ticks: { color: '#94a3b8', font: { size: 9 } },
+						grid: { display: false }
+					},
+					y: {
+						ticks: { color: '#94a3b8', font: { size: 9 } },
+						grid: { color: 'rgba(255, 255, 255, 0.05)' }
+					}
 				}
 			}
-		}
-	});
-}
+		});
+	}
 
+	// - - - - - - - - - - Conexión con Bitácora - - - - - - - - - - -
+
+	function actualizarMetricas() {
+		const tarjetas = document.querySelectorAll('#contenedor-registros > .tarjeta-registro');
+
+		let concluidos = 0;
+		let enProceso = 0;
+		let pendientes = 0;
+
+		let laptops = 0;
+		let pcs = 0;
+		let servidores = 0;
+		let impresoras = 0;
+
+		tarjetas.forEach((tarjeta) => {
+			const estatus = tarjeta.querySelector('[data-slot="estatusTexto"]')?.textContent?.trim().toLowerCase() || '';
+			if (estatus.includes('concluid')) concluidos++;
+			else if (estatus.includes('proceso')) enProceso++;
+			else if (estatus.includes('pendiente')) pendientes++;
+
+			const equipo = tarjeta.querySelector('[data-slot="tipoEquipo"]')?.textContent?.trim().toLowerCase() || '';
+			if (equipo.includes('laptop')) laptops++;
+			else if (equipo === 'pc' || equipo.includes('pc') || equipo.includes('escritorio')) pcs++;
+			else if (equipo.includes('servidor')) servidores++;
+			else if (equipo.includes('impresora')) impresoras++;
+		});
+
+		// 1. Actualizar gráfica de Estatus
+		const totalEstatus = concluidos + enProceso + pendientes;
+		if (chartEstatus) {
+			if (totalEstatus === 0) {
+				chartEstatus.data.labels = ['Sin datos'];
+				chartEstatus.data.datasets[0].data = [1];
+				chartEstatus.data.datasets[0].backgroundColor = ['rgba(255, 255, 255, 0.08)'];
+				if (chartEstatus.options.plugins?.tooltip) chartEstatus.options.plugins.tooltip.enabled = false;
+			} else {
+				chartEstatus.data.labels = ['Concluidos', 'En proceso', 'Pendiente'];
+				chartEstatus.data.datasets[0].data = [concluidos, enProceso, pendientes];
+				chartEstatus.data.datasets[0].backgroundColor = ['#2dd4bf', '#22d3ee', '#f59e0b'];
+				if (chartEstatus.options.plugins?.tooltip) chartEstatus.options.plugins.tooltip.enabled = true;
+			}
+			chartEstatus.update();
+		}
+
+		// 2. Actualizar gráfica de Equipos
+		if (chartEquipos) {
+			chartEquipos.data.datasets[0].data = [laptops, pcs, servidores, impresoras];
+			chartEquipos.update();
+		}
+	}
+
+	// Escuchar evento personalizado
+	window.addEventListener('actualizar-metricas', actualizarMetricas);
+
+	// Observador automático por si se añade/edita/borra una tarjeta en el DOM
+	const contenedor = document.getElementById('contenedor-registros');
+	if (contenedor) {
+		const observer = new MutationObserver(actualizarMetricas);
+		observer.observe(contenedor, { childList: true, subtree: true, characterData: true });
+	}
+
+	actualizarMetricas();
 </script>
