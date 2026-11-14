@@ -2,6 +2,34 @@
 import { Icon } from 'astro-icon/components';
 ---
 
+<!-- Ventana de Alerta Superior (Deslizable desde arriba, delgada y moderna) -->
+<div
+	id="alerta-superior"
+	class="fixed top-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-[#0e1726]/95 border border-rose-400/60 shadow-2xl shadow-rose-950/80 backdrop-blur-md text-white transition-all duration-300 ease-out -translate-y-24 opacity-0 pointer-events-none max-w-md w-[92%]"
+	role="alert"
+>
+	<!-- Icono con halo suave -->
+	<div class="w-7 h-7 rounded-xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center shrink-0 text-rose-300">
+		<Icon name="lucide:alert-circle" class="w-4 h-4" />
+	</div>
+
+	<!-- Mensaje -->
+	<div class="flex-1 min-w-0">
+		<p id="alerta-mensaje" class="text-xs text-slate-200 leading-snug">
+			Por favor completa todos los campos antes de confirmar.
+		</p>
+	</div>
+
+	<!-- Botón Aceptar -->
+	<button
+		type="button"
+		id="btn-cerrar-alerta"
+		class="px-3 py-1 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 hover:text-white border border-rose-400/40 font-semibold text-xs transition-all duration-150 active:scale-95 cursor-pointer shrink-0"
+	>
+		Aceptar
+	</button>
+</div>
+
 <!-- Modal Overlay con pantalla borrosa -->
 <div
 	id="modal-overlay"
@@ -18,14 +46,6 @@ import { Icon } from 'astro-icon/components';
 				<Icon name="lucide:brush" class="w-5 h-5 text-teal-300" />
 				<span id="modal-titulo">Registro de Mantenimiento</span>
 			</h2>
-			<button
-				type="button"
-				id="btn-cerrar-modal"
-				class="p-1 rounded-lg text-slate-400 hover:text-teal-300 hover:bg-teal-300/10 transition-colors cursor-pointer"
-				title="Cerrar ventana"
-			>
-				<Icon name="lucide:x" class="w-5 h-5" />
-			</button>
 		</div>
 
 		<!-- Formulario a dos columnas -->
@@ -148,7 +168,7 @@ import { Icon } from 'astro-icon/components';
 			</div>
 
 			<!-- Fila inferior: Estatus + Botones Cancelar y Confirmar -->
-			<div class="pt-3 border-t border-teal-300/30 flex flex-col sm:flex-row items-center justify-between gap-3 mt-1">
+			<div class="pt-3 flex-col sm:flex-row items-center justify-between gap-3 mt-1">
 				<div class="w-full sm:w-60">
 					<details class="custom-dropdown relative group" data-field="estatus" data-placeholder="Estatus">
 						<summary class="flex items-center justify-between w-full px-3 py-1.5 text-sm rounded-xl bg-[#0e1726] text-white border border-teal-300/50 hover:border-teal-300 cursor-pointer transition-colors list-none [&::-webkit-details-marker]:hidden select-none">
@@ -166,7 +186,7 @@ import { Icon } from 'astro-icon/components';
 				<div class="flex items-center gap-2.5 w-full sm:w-auto justify-end">
 					<button
 						type="button"
-						id="btn-cancelar"
+						id="btn-cancelar-modal"
 						class="font-bold flex items-center gap-1.5 px-4 py-1.5 justify-center rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-600/50 cursor-pointer transition-all duration-200 hover:scale-105 active:scale-95 text-xs"
 					>
 						<Icon name="lucide:x" class="w-4 h-4" />
@@ -221,24 +241,40 @@ import { Icon } from 'astro-icon/components';
 		}
 	});
 
+	// Control de Alerta Superior
+	const alertaSuperior = document.getElementById('alerta-superior');
+	const alertaMensaje = document.getElementById('alerta-mensaje');
+	const btnCerrarAlerta = document.getElementById('btn-cerrar-alerta');
+	let timerAlerta: number | undefined;
+
+	const mostrarAlerta = (mensaje: string) => {
+		if (alertaMensaje) alertaMensaje.textContent = mensaje;
+		alertaSuperior?.classList.remove('-translate-y-24', 'opacity-0', 'pointer-events-none');
+		alertaSuperior?.classList.add('translate-y-0', 'opacity-100');
+
+		clearTimeout(timerAlerta);
+		timerAlerta = window.setTimeout(cerrarAlerta, 4500);
+	};
+
+	const cerrarAlerta = () => {
+		alertaSuperior?.classList.remove('translate-y-0', 'opacity-100');
+		alertaSuperior?.classList.add('-translate-y-24', 'opacity-0', 'pointer-events-none');
+		clearTimeout(timerAlerta);
+	};
+
+	btnCerrarAlerta?.addEventListener('click', cerrarAlerta);
+
 	// Control del Modal
 
 	const modalOverlay = document.getElementById('modal-overlay');
 	const modalContenido = document.getElementById('modal-contenido');
 	const modalTitulo = document.getElementById('modal-titulo');
-	const btnCerrarModal = document.getElementById('btn-cerrar-modal');
+	const btnCancelarModal = document.getElementById('btn-cancelar-modal');
 	const formEditor = document.getElementById('form-editor') as HTMLFormElement | null;
 
 	const btnNuevo = document.getElementById('btn-nuevo');
-	const btnSeleccionar = document.getElementById('btn-seleccionar');
-	const btnCancelar = document.getElementById('btn-cancelar');
 	const btnConfirmar = document.getElementById('btn-confirmar');
-	const btnEditar = document.getElementById('btn-editar');
-	const btnBorrar = document.getElementById('btn-borrar');
-
 	const contenedor = document.getElementById('contenedor-registros');
-	let modoSeleccion = false;
-	let tarjetaSeleccionada: HTMLElement | null = null;
 	let tarjetaEnEdicion: HTMLElement | null = null;
 
 	const abrirModal = (titulo = 'Registro de Mantenimiento') => {
@@ -262,7 +298,6 @@ import { Icon } from 'astro-icon/components';
 
 	const resetEditor = () => {
 		tarjetaEnEdicion = null;
-		setModoSeleccion(false);
 
 		formEditor?.querySelectorAll('input').forEach((input) => (input.value = ''));
 
@@ -278,60 +313,7 @@ import { Icon } from 'astro-icon/components';
 		});
 	};
 
-	const deseleccionarTarjeta = () => {
-		if (!tarjetaSeleccionada) return;
-		tarjetaSeleccionada.classList.remove('ring-2', 'ring-teal-300', 'border-teal-300', 'bg-[#0e1726]');
-		tarjetaSeleccionada = null;
-	};
-
-	const setModoSeleccion = (activo: boolean) => {
-		modoSeleccion = activo;
-		btnSeleccionar?.classList.toggle('ring-2', activo);
-		btnSeleccionar?.classList.toggle('ring-white', activo);
-		contenedor?.classList.toggle('cursor-pointer', activo);
-
-		if (!activo) deseleccionarTarjeta();
-	};
-
-	// Eventos de apertura / cierre
-
-	btnNuevo?.addEventListener('click', () => {
-		resetEditor();
-		abrirModal('Nuevo Registro');
-	});
-
-	btnCancelar?.addEventListener('click', cerrarModal);
-	btnCerrarModal?.addEventListener('click', cerrarModal);
-
-	// Cerrar al hacer clic en el fondo borroso (fuera de la tarjeta modal)
-	modalOverlay?.addEventListener('click', (e) => {
-		if (e.target === modalOverlay) {
-			cerrarModal();
-		}
-	});
-
-	btnSeleccionar?.addEventListener('click', () => {
-		setModoSeleccion(!modoSeleccion);
-	});
-
-	// Selección de tarjeta en la bitácora
-	contenedor?.addEventListener('click', (e) => {
-		if (!modoSeleccion) return;
-
-		const tarjeta = (e.target as HTMLElement).closest<HTMLElement>('.tarjeta-registro');
-		if (!tarjeta) return;
-
-		if (tarjetaSeleccionada === tarjeta) {
-			deseleccionarTarjeta();
-			return;
-		}
-
-		deseleccionarTarjeta();
-		tarjetaSeleccionada = tarjeta;
-		tarjetaSeleccionada.classList.add('ring-2', 'ring-teal-300', 'border-teal-300', 'bg-[#0e1726]');
-	});
-
-	// Editar tarjeta seleccionada
+	// Helper para asignar valor a dropdowns personalizados
 	const setDropdownVal = (field: string, valor: string) => {
 		const dd = document.querySelector<HTMLDetailsElement>(`.custom-dropdown[data-field="${field}"]`);
 		if (!dd) return;
@@ -344,59 +326,75 @@ import { Icon } from 'astro-icon/components';
 		}
 	};
 
-	btnEditar?.addEventListener('click', () => {
-		if (!tarjetaSeleccionada) {
-			alert('Primero haz clic en la tarjeta que quieres editar.');
-			return;
-		}
-
-		tarjetaEnEdicion = tarjetaSeleccionada;
-
-		const getSlot = (slot: string) =>
-			tarjetaEnEdicion?.querySelector(`[data-slot="${slot}"]`)?.textContent?.trim() || '';
-
-		const fechaTexto = getSlot('fecha');
-		const fechaInput = document.querySelector<HTMLInputElement>('input[name="fecha"]');
-		if (fechaInput && fechaTexto) {
-			fechaInput.value = fechaTexto.split('/').reverse().join('-');
-		}
-
-		const inputPersona = document.getElementById('input-persona') as HTMLInputElement | null;
-		const inputModelo = document.getElementById('input-modelo') as HTMLInputElement | null;
-		const inputSerie = document.getElementById('input-serie') as HTMLInputElement | null;
-
-		if (inputPersona) inputPersona.value = getSlot('persona');
-		if (inputModelo) inputModelo.value = getSlot('marcaModelo');
-		if (inputSerie) inputSerie.value = getSlot('serie');
-
-		setDropdownVal('sucursal', getSlot('sucursal'));
-		setDropdownVal('area', getSlot('area'));
-		setDropdownVal('tipoEquipo', getSlot('tipoEquipo'));
-		setDropdownVal('tipoServicio', getSlot('tipoServicio'));
-		setDropdownVal('estatus', getSlot('estatusTexto'));
-
-		abrirModal('Editar Registro');
+	// Eventos de apertura / cierre
+	btnNuevo?.addEventListener('click', () => {
+		resetEditor();
+		abrirModal('Nuevo Registro');
 	});
 
-	// Borrar tarjeta seleccionada
-	btnBorrar?.addEventListener('click', () => {
-		if (!tarjetaSeleccionada) {
-			alert('Primero selecciona la tarjeta que quieres borrar.');
+	btnCancelarModal?.addEventListener('click', cerrarModal);
+
+	// Cerrar al hacer clic en el fondo borroso (fuera de la tarjeta modal)
+	modalOverlay?.addEventListener('click', (e) => {
+		if (e.target === modalOverlay) {
+			cerrarModal();
+		}
+	});
+
+	// Delegación de eventos en las tarjetas: Editar y Borrar directos
+	contenedor?.addEventListener('click', (e) => {
+		const target = e.target as HTMLElement;
+
+		// 1. Botón Editar de la tarjeta (icono lápiz)
+		const btnEdit = target.closest<HTMLElement>('.btn-editar-tarjeta');
+		if (btnEdit) {
+			const tarjeta = btnEdit.closest<HTMLElement>('.tarjeta-registro');
+			if (!tarjeta) return;
+
+			tarjetaEnEdicion = tarjeta;
+
+			const getSlot = (slot: string) =>
+				tarjetaEnEdicion?.querySelector(`[data-slot="${slot}"]`)?.textContent?.trim() || '';
+
+			const fechaTexto = getSlot('fecha');
+			const fechaInput = document.querySelector<HTMLInputElement>('input[name="fecha"]');
+			if (fechaInput && fechaTexto) {
+				fechaInput.value = fechaTexto.split('/').reverse().join('-');
+			}
+
+			const inputPersona = document.getElementById('input-persona') as HTMLInputElement | null;
+			const inputModelo = document.getElementById('input-modelo') as HTMLInputElement | null;
+			const inputSerie = document.getElementById('input-serie') as HTMLInputElement | null;
+
+			if (inputPersona) inputPersona.value = getSlot('persona');
+			if (inputModelo) inputModelo.value = getSlot('marcaModelo');
+			if (inputSerie) inputSerie.value = getSlot('serie');
+
+			setDropdownVal('sucursal', getSlot('sucursal'));
+			setDropdownVal('area', getSlot('area'));
+			setDropdownVal('tipoEquipo', getSlot('tipoEquipo'));
+			setDropdownVal('tipoServicio', getSlot('tipoServicio'));
+			setDropdownVal('estatus', getSlot('estatusTexto'));
+
+			abrirModal('Editar Registro');
 			return;
 		}
 
-		if (!confirm('¿Seguro que deseas borrar este registro?')) return;
+		// 2. Botón Borrar de la tarjeta (icono bote de basura)
+		const btnDel = target.closest<HTMLElement>('.btn-borrar-tarjeta');
+		if (btnDel) {
+			const tarjeta = btnDel.closest<HTMLElement>('.tarjeta-registro');
+			if (!tarjeta) return;
 
-		const estabaEditandoEsta = tarjetaSeleccionada === tarjetaEnEdicion;
-		tarjetaSeleccionada.remove();
-		tarjetaSeleccionada = null;
+			if (!confirm('¿Seguro que deseas borrar este registro?')) return;
 
-		window.dispatchEvent(new CustomEvent('actualizar-metricas'));
+			if (tarjeta === tarjetaEnEdicion) {
+				cerrarModal();
+			}
 
-		if (estabaEditandoEsta) {
-			cerrarModal();
-		} else {
-			setModoSeleccion(false);
+			tarjeta.remove();
+			window.dispatchEvent(new CustomEvent('actualizar-metricas'));
+			return;
 		}
 	});
 
@@ -421,7 +419,7 @@ import { Icon } from 'astro-icon/components';
 		};
 
 		if (Object.values(registro).some((valor) => !valor)) {
-			alert('Por favor completa todos los campos antes de confirmar.');
+			mostrarAlerta('Por favor completa todos los campos antes de confirmar.');
 			return;
 		}
 
@@ -478,7 +476,7 @@ import { Icon } from 'astro-icon/components';
 
 		if (tarjetaEnEdicion) {
 			llenarTarjeta(tarjetaEnEdicion);
-			deseleccionarTarjeta();
+			tarjetaEnEdicion = null;
 		} else {
 			const template = document.getElementById('template-registro') as HTMLTemplateElement | null;
 			if (template && contenedor) {

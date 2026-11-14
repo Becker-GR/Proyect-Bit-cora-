@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+#layout-wrapper {
+	transition: padding-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 768px) {
+	#layout-wrapper.sidebar-abierto {
+		padding-left: 224px;
+	}
+}

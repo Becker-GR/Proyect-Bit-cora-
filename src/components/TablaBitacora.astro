@@ -20,19 +20,20 @@ import { Icon } from "astro-icon/components";
 		</button>
 	</div>
 
-	<div class="grid grid-cols-[90px_1.2fr_1.8fr_1.4fr_120px_60px] gap-4 px-5 py-2 text-teal-300 text-[13px] font-semibold select-none text-shadow-lg text-shadow-teal-600 border border-teal-300/50 rounded-2xl bg-[#0e1627]/50">
+	<div class="grid grid-cols-[90px_1.2fr_1.8fr_1.4fr_120px_60px_65px] gap-4 px-5 py-2 text-teal-300 text-[13px] font-semibold select-none text-shadow-lg text-shadow-teal-600 border border-teal-300/50 rounded-2xl bg-[#0e1627]/50">
 		<span>Fecha</span>
 		<span>Área / Sucursal</span>
 		<span>Equipo & Modelo</span>
 		<span>Tipo de Servicio</span>
 		<span>Estatus</span>
 		<span>Evidencia</span>
+		<span>Acciones</span>
 	</div>
 
 	<div id="contenedor-registros" class="flex flex-col gap-2.5">
 
 			<template id="template-registro">
-				<div class="tarjeta-registro grid grid-cols-[90px_1.2fr_1.8fr_1.4fr_120px_60px] gap-4 items-center px-5 py-2 rounded-2xl border border-teal-300/40 bg-[#0e1727]/50 shadow-lg shadow-black/40 hover:border-teal-300 hover:bg-[#0e1726]/80 transition-all duration-200">
+				<div class="tarjeta-registro grid grid-cols-[85px_1.1fr_1.4fr_1.1fr_110px_65px_65px] gap-4 items-center px-5 py-2 rounded-2xl border border-teal-300/40 bg-[#0e1727]/50 shadow-lg shadow-black/40 hover:border-teal-300 hover:bg-[#0e1726]/80 transition-all duration-200">
 					<div>
 						<span data-slot="fecha" class="text-slate-200 font-medium text-xs">07/11/2026</span>
 					</div>
@@ -92,6 +93,24 @@ import { Icon } from "astro-icon/components";
 						<div class="w-9 h-9 rounded-lg border border-teal-300/40 bg-teal-950/60 flex items-center justify-center overflow-hidden cursor-pointer hover:border-teal-300 transition-colors shadow-sm">
 							<Icon name="lucide:image" class="w-4 h-4 text-teal-300/80" />
 						</div>
+					</div>
+
+					<!-- Botones de Acción -->
+					<div class="flex items-center justify-center gap-1">
+						<button
+							type="button"
+							class="btn-editar-tarjeta p-1.5 rounded-lg text-slate-300 hover:text-teal-300 hover:bg-teal-300/10 transition-colors cursor-pointer"
+							title="Editar registro"
+						>
+							<Icon name="lucide:pencil" class="w-4 h-4" />
+						</button>
+						<button
+							type="button"
+							class="btn-borrar-tarjeta p-1.5 rounded-lg text-slate-300 hover:text-rose-400 hover:bg-rose-400/10 transition-colors cursor-pointer"
+							title="Eliminar registro"
+						>
+							<Icon name="lucide:trash" class="w-4 h-4" />
+						</button>
 					</div>
 				</div>
 			</template>
