@@ -9,3 +9,7 @@
 		padding-left: 224px;
 	}
 }
+
+.sidebar-oculto {
+	transform: translateX(-120%);
+}

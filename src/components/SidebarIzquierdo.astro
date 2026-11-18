@@ -16,7 +16,7 @@ import { Icon } from 'astro-icon/components';
 <!-- Sidebar Desplegable -->
 <aside
 	id="sidebar-izq"
-	class="fixed left-4 top-2 bottom-4 w-50 bg-[#0e1726] text-white p-4 rounded-2xl shadow-2xl border border-teal-300 bg-linear-to-br via-cyan-800/50 z-50 -translate-x-[120%] transition-transform duration-300 ease-in-out"
+	class="fixed left-4 top-2 bottom-4 w-50 bg-[#0e1726] text-white p-4 rounded-2xl shadow-2xl border border-teal-300 bg-linear-to-br via-cyan-800/50 z-50 sidebar-oculto transition-transform duration-300 ease-in-out"
 >
 	<h2 class="pb-2 font-bold text-xl mb-6 flex items-center justify-between border-b border-teal-300/50">
 		<span class="flex items-center gap-2">
@@ -86,14 +86,12 @@ import { Icon } from 'astro-icon/components';
 	const layoutWrapper = document.getElementById('layout-wrapper');
 
 	const abrirSidebar = () => {
-		sidebar?.classList.remove('-translate-x-[120%]');
-		sidebar?.classList.add('translate-x-0');
+		sidebar?.classList.remove('sidebar-oculto');
 		layoutWrapper?.classList.add('sidebar-abierto');
 	};
 
 	const cerrarSidebar = () => {
-		sidebar?.classList.remove('translate-x-0');
-		sidebar?.classList.add('-translate-x-[120%]');
+		sidebar?.classList.add('sidebar-oculto');
 		layoutWrapper?.classList.remove('sidebar-abierto');
 		profileMenu?.removeAttribute('open');
 	};

@@ -30,28 +30,14 @@ document.addEventListener('click', (e) => {
 	}
 });
 
-// Control de Alerta Superior
-const alertaSuperior = document.getElementById('alerta-superior');
-const alertaMensaje = document.getElementById('alerta-mensaje');
-const btnCerrarAlerta = document.getElementById('btn-cerrar-alerta');
-let timerAlerta: number | undefined;
-
-const mostrarAlerta = (mensaje: string) => {
-	if (alertaMensaje) alertaMensaje.textContent = mensaje;
-	alertaSuperior?.classList.remove('-translate-y-24', 'opacity-0', 'pointer-events-none');
-	alertaSuperior?.classList.add('translate-y-0', 'opacity-100');
-
-	clearTimeout(timerAlerta);
-	timerAlerta = window.setTimeout(cerrarAlerta, 4500);
+// Control de Notificaciones Snackbar
+const mostrarSnackbar = (mensaje: string, tipo: 'exito' | 'editado' | 'error' = 'exito') => {
+	window.dispatchEvent(
+		new CustomEvent('mostrar-snackbar', {
+			detail: { mensaje, tipo },
+		})
+	);
 };
-
-const cerrarAlerta = () => {
-	alertaSuperior?.classList.remove('translate-y-0', 'opacity-100');
-	alertaSuperior?.classList.add('-translate-y-24', 'opacity-0', 'pointer-events-none');
-	clearTimeout(timerAlerta);
-};
-
-btnCerrarAlerta?.addEventListener('click', cerrarAlerta);
 
 // Control de Confirmación de Eliminación
 const confirmarBorrado = document.getElementById('confirmar-borrado');
@@ -61,7 +47,6 @@ const btnConfirmarBorrado = document.getElementById('btn-confirmar-borrado');
 let tarjetaAEliminar: HTMLElement | null = null;
 
 const abrirConfirmacionBorrado = (tarjeta: HTMLElement) => {
-	cerrarAlerta();
 	tarjetaAEliminar?.classList.remove('ring-2', 'ring-rose-400/70');
 	tarjetaAEliminar = tarjeta;
 	tarjetaAEliminar.classList.add('ring-2', 'ring-rose-400/70');
@@ -98,6 +83,7 @@ btnConfirmarBorrado?.addEventListener('click', () => {
 	tarjetaAEliminar.remove();
 	cerrarConfirmacionBorrado();
 	window.dispatchEvent(new CustomEvent('actualizar-metricas'));
+	mostrarSnackbar('Tarjeta eliminada correctamente.', 'exito');
 });
 
 // Control del Modal
@@ -247,7 +233,7 @@ btnConfirmar?.addEventListener('click', () => {
 	};
 
 	if (Object.values(registro).some((valor) => !valor)) {
-		mostrarAlerta('Por favor completa todos los campos antes de confirmar.');
+		mostrarSnackbar('Por favor completa todos los campos antes de confirmar.', 'error');
 		return;
 	}
 
@@ -305,12 +291,16 @@ btnConfirmar?.addEventListener('click', () => {
 	if (tarjetaEnEdicion) {
 		llenarTarjeta(tarjetaEnEdicion);
 		tarjetaEnEdicion = null;
+		mostrarSnackbar('Tarjeta actualizada correctamente.', 'editado');
 	} else {
 		const template = document.getElementById('template-registro') as HTMLTemplateElement | null;
 		if (template && contenedor) {
 			const clone = template.content.cloneNode(true) as DocumentFragment;
 			llenarTarjeta(clone);
 			contenedor.prepend(clone);
+			mostrarSnackbar('Tarjeta guardada correctamente.', 'exito');
+		} else {
+			mostrarSnackbar('Error: No se pudo guardar la tarjeta.', 'error');
 		}
 	}
 

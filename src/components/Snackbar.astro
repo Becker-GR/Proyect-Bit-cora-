@@ -1,0 +1,91 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<div
+	id="snackbar"
+	class="fixed bottom-5 left-1/2 -translate-x-1/2 z-120 flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-[#0e1726]/95 border border-teal-400/60 shadow-2xl shadow-cyan-300 backdrop-blur-md text-white transition-all duration-300 ease-out translate-y-24 opacity-0 pointer-events-none max-w-md w-max cursor-pointer select-none"
+	role="status"
+>
+	<div id="snackbar-icono-box" class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 border border-teal-400/40 bg-teal-400/10 text-teal-300">
+		<Icon id="snack-icon-exito" name="lucide:check-circle-2" class="w-4 h-4 hidden" />
+		<Icon id="snack-icon-editado" name="lucide:pencil" class="w-4 h-4 hidden" />
+		<Icon id="snack-icon-error" name="lucide:alert-circle" class="w-4 h-4 hidden" />
+	</div>
+
+	<p id="snackbar-mensaje" class="text-xs font-medium text-slate-100 pr-1">
+		Registro guardado correctamente.
+	</p>
+</div>
+
+<script>
+	const snackbar = document.getElementById('snackbar');
+	const snackbarMensaje = document.getElementById('snackbar-mensaje');
+	const snackbarIconoBox = document.getElementById('snackbar-icono-box');
+	const iconExito = document.getElementById('snack-icon-exito');
+	const iconEditado = document.getElementById('snack-icon-editado');
+	const iconError = document.getElementById('snack-icon-error');
+
+	let timerSnackbar: number | undefined;
+
+	const ocultarSnackbar = () => {
+		snackbar?.classList.remove('translate-y-0', 'opacity-100');
+		snackbar?.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+		clearTimeout(timerSnackbar);
+	};
+
+	window.addEventListener('mostrar-snackbar', (e: Event) => {
+		const customEvent = e as CustomEvent<{ mensaje: string; tipo?: 'exito' | 'editado' | 'error' }>;
+		const { mensaje, tipo = 'exito' } = customEvent.detail || {};
+
+		if (snackbarMensaje && mensaje) {
+			snackbarMensaje.textContent = mensaje;
+		}
+
+		// Ocultar todos los iconos primero
+		iconExito?.classList.add('hidden');
+		iconEditado?.classList.add('hidden');
+		iconError?.classList.add('hidden');
+
+		// Limpiar bordes y sombras previas
+		snackbar?.classList.remove(
+			'border-teal-400/60',
+			'border-cyan-400/60',
+			'border-rose-400/60',
+			'shadow-teal-950/60',
+			'shadow-cyan-950/60',
+			'shadow-rose-950/60'
+		);
+
+		if (tipo === 'editado') {
+			iconEditado?.classList.remove('hidden');
+			snackbar?.classList.add('border-cyan-400/60', 'shadow-cyan-950/60');
+			if (snackbarIconoBox) {
+				snackbarIconoBox.className = 'w-7 h-7 rounded-xl flex items-center justify-center shrink-0 border border-cyan-400/40 bg-cyan-400/10 text-cyan-300';
+			}
+		} else if (tipo === 'error') {
+			iconError?.classList.remove('hidden');
+			snackbar?.classList.add('border-rose-400/60', 'shadow-rose-800/60');
+			if (snackbarIconoBox) {
+				snackbarIconoBox.className = 'w-7 h-7 rounded-xl flex items-center justify-center shrink-0 border border-rose-400/40 bg-rose-400/10 text-rose-300';
+			}
+		} else {
+			// exito por defecto
+			iconExito?.classList.remove('hidden');
+			snackbar?.classList.add('border-teal-400/60', 'shadow-teal-950/60');
+			if (snackbarIconoBox) {
+				snackbarIconoBox.className = 'w-7 h-7 rounded-xl flex items-center justify-center shrink-0 border border-teal-400/40 bg-teal-400/10 text-teal-300';
+			}
+		}
+
+		// Animar entrada
+		snackbar?.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+		snackbar?.classList.add('translate-y-0', 'opacity-100');
+
+		clearTimeout(timerSnackbar);
+		timerSnackbar = window.setTimeout(ocultarSnackbar, 3500);
+	});
+
+	// Permitir cerrar haciendo clic sobre el snackbar
+	snackbar?.addEventListener('click', ocultarSnackbar);
+</script>

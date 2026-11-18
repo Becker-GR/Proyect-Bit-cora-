@@ -5,7 +5,7 @@ import { Icon } from "astro-icon/components";
 <div class="mt-6 2xl:mt-8 flex flex-col gap-2 2xl:gap-3">
 
 	<div class="flex items-center justify-between mb-1 px-1">
-		<div class="border border-teal-300/50 rounded-xl px-2.5 py-1 2xl:px-3.5 2xl:py-1.5 bg-[#0e1627]/50">
+		<div class="border border-teal-300/50 rounded-xl px-3 py-1 2xl:px-3.5 2xl:py-1.5 bg-[#0e1627]/50">
 			<h2 class="text-sm 2xl:text-base font-bold text-teal-300">Historial de Mantenimientos</h2>
 			<p class="text-xs 2xl:text-sm text-white">Equipos registrados en bitácora</p>
 		</div>
@@ -15,12 +15,12 @@ import { Icon } from "astro-icon/components";
 			id="btn-nuevo"
 			class="font-bold flex items-center gap-2 px-3.5 py-1.5 2xl:px-4 2xl:py-2 justify-center rounded-2xl bg-teal-300 text-[#0e1726] cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95 shadow-lg shadow-teal-300/10 text-xs 2xl:text-sm"
 		>
-			<Icon name="lucide:plus" class="w-4 h-4 stroke-[3]" />
+			<Icon name="lucide:plus" class="w-4 h-4 stroke-3" />
 			<span>Nuevo Registro</span>
 		</button>
 	</div>
 
-	<div class="grid grid-cols-[90px_1.2fr_1.5fr_1.2fr_125px_75px_75px] 2xl:grid-cols-[110px_1.2fr_1.6fr_1.3fr_140px_85px_85px] gap-4 px-5 py-2 2xl:px-6 2xl:py-3 text-teal-300 text-[13px] 2xl:text-sm font-semibold select-none text-shadow-lg text-shadow-teal-600 border border-teal-300/50 rounded-2xl bg-[#0e1627]/50">
+	<div class="grid grid-cols-[90px_1.2fr_1.5fr_1.2fr_125px_75px_75px] 2xl:grid-cols-[110px_1.2fr_1.6fr_1.3fr_140px_85px_85px] gap-4 px-5 py-2 2xl:px-6 2xl:py-3 text-teal-300 text-[13px] 2xl:text-sm font-semibold select-none text-shadow-lg text-shadow-teal-600 border border-teal-300/50 rounded-2xl bg-[#0e1627]/50 shadow-2xl shadow-[#0e1726]">
 		<span>Fecha</span>
 		<span>Área / Sucursal</span>
 		<span>Equipo & Modelo</span>
@@ -102,14 +102,14 @@ import { Icon } from "astro-icon/components";
 							class="btn-editar-tarjeta p-1.5 rounded-lg text-slate-300 hover:text-teal-300 hover:bg-teal-300/10 transition-colors cursor-pointer"
 							title="Editar registro"
 						>
-							<Icon name="lucide:pencil" class="w-4 h-4 2xl:w-[18px] 2xl:h-[18px]" />
+							<Icon name="lucide:pencil" class="w-4 h-4 2xl:w-18px 2xl:h-18px" />
 						</button>
 						<button
 							type="button"
 							class="btn-borrar-tarjeta p-1.5 rounded-lg text-slate-300 hover:text-rose-400 hover:bg-rose-400/10 transition-colors cursor-pointer"
 							title="Eliminar registro"
 						>
-							<Icon name="lucide:trash" class="w-4 h-4 2xl:w-[18px] 2xl:h-[18px]" />
+							<Icon name="lucide:trash" class="w-4 h-4 2xl:w-18px 2xl:h-18px" />
 						</button>
 					</div>
 				</div>
