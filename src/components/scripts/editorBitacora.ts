@@ -98,6 +98,43 @@ const btnConfirmar = document.getElementById('btn-confirmar');
 const contenedor = document.getElementById('contenedor-registros');
 let tarjetaEnEdicion: HTMLElement | null = null;
 
+// Control de Evidencia Fotográfica
+const inputFoto = document.getElementById('input-foto') as HTMLInputElement | null;
+const previewFotoBox = document.getElementById('preview-foto-box');
+const imgPreview = document.getElementById('img-preview') as HTMLImageElement | null;
+const nombreFoto = document.getElementById('nombre-foto');
+const btnQuitarFoto = document.getElementById('btn-quitar-foto');
+let fotoActualDataUrl: string = '';
+
+const limpiarFoto = () => {
+	fotoActualDataUrl = '';
+	if (inputFoto) inputFoto.value = '';
+	if (imgPreview) imgPreview.src = '';
+	if (nombreFoto) nombreFoto.textContent = '';
+	previewFotoBox?.classList.remove('flex');
+	previewFotoBox?.classList.add('hidden');
+};
+
+inputFoto?.addEventListener('change', () => {
+	const file = inputFoto.files?.[0];
+	if (!file) return;
+
+	const reader = new FileReader();
+	reader.onload = (e) => {
+		fotoActualDataUrl = (e.target?.result as string) || '';
+		if (imgPreview) imgPreview.src = fotoActualDataUrl;
+		if (nombreFoto) nombreFoto.textContent = file.name;
+		previewFotoBox?.classList.remove('hidden');
+		previewFotoBox?.classList.add('flex');
+	};
+	reader.readAsDataURL(file);
+});
+
+btnQuitarFoto?.addEventListener('click', (e) => {
+	e.preventDefault();
+	limpiarFoto();
+});
+
 const abrirModal = (titulo = 'Registro de Mantenimiento') => {
 	if (modalTitulo) modalTitulo.textContent = titulo;
 	modalOverlay?.classList.remove('opacity-0', 'pointer-events-none');
@@ -119,6 +156,7 @@ const cerrarModal = () => {
 
 const resetEditor = () => {
 	tarjetaEnEdicion = null;
+	limpiarFoto();
 
 	formEditor?.querySelectorAll('input').forEach((input) => (input.value = ''));
 
@@ -196,6 +234,18 @@ contenedor?.addEventListener('click', (e) => {
 		setDropdownVal('tipoEquipo', getSlot('tipoEquipo'));
 		setDropdownVal('tipoServicio', getSlot('tipoServicio'));
 		setDropdownVal('estatus', getSlot('estatusTexto'));
+
+		// Cargar foto si la tarjeta tiene una
+		const imgExistente = tarjetaEnEdicion?.querySelector<HTMLImageElement>('[data-slot="evidencia"] img');
+		if (imgExistente && imgExistente.src) {
+			fotoActualDataUrl = imgExistente.src;
+			if (imgPreview) imgPreview.src = fotoActualDataUrl;
+			if (nombreFoto) nombreFoto.textContent = 'Foto adjunta';
+			previewFotoBox?.classList.remove('hidden');
+			previewFotoBox?.classList.add('flex');
+		} else {
+			limpiarFoto();
+		}
 
 		abrirModal('Editar Registro');
 		return;
@@ -285,6 +335,16 @@ btnConfirmar?.addEventListener('click', () => {
 		if (badgeEl && dotEl) {
 			badgeEl.className = `inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] 2xl:text-xs font-medium border ${estilo.badge}`;
 			dotEl.className = `w-1.5 h-1.5 rounded-full ${estilo.dot}`;
+		}
+
+		// Slot de evidencia fotográfica
+		const evidenciaEl = objetivo.querySelector<HTMLElement>('[data-slot="evidencia"]');
+		if (evidenciaEl) {
+			if (fotoActualDataUrl) {
+				evidenciaEl.innerHTML = `<img src="${fotoActualDataUrl}" alt="Evidencia" class="w-full h-full object-cover" />`;
+			} else {
+				evidenciaEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-300/80"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>`;
+			}
 		}
 	};
 

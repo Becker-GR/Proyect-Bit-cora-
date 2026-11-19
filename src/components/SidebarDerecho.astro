@@ -95,20 +95,20 @@ import { Icon } from 'astro-icon/components';
 					</details>
 
 					<!-- Área -->
-					<details class="custom-dropdown relative group" data-field="area" data-placeholder="Area">
+					<details class="custom-dropdown relative group" data-field="area" data-placeholder="Área">
 						<summary class="flex items-center justify-between w-full px-3 py-1.5 text-sm rounded-xl bg-[#0e1726] text-white border border-teal-300/50 hover:border-teal-300 cursor-pointer transition-colors list-none [&::-webkit-details-marker]:hidden select-none">
 							<span class="dropdown-label text-slate-300 text-xs">Área</span>
 							<Icon name="lucide:chevron-down" class="w-4 h-4 text-teal-300 transition-transform duration-200 group-open:rotate-180" />
 						</summary>
 						<div class="absolute left-0 right-0 mt-1.5 z-50 bg-[#0e1726] border border-teal-300/50 rounded-xl shadow-xl shadow-black/80 py-1 overflow-hidden backdrop-blur-md max-h-48 overflow-y-auto">
-							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Almacen">Almacen</button>
+							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Almacén">Almacén</button>
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Cajas">Cajas</button>
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Contabilidad">Contabilidad</button>
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Flotilla">Flotilla</button>
-							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Logistica">Logistica</button>
+							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Logística">Logística</button>
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Mesa de Control">Mesa de Control</button>
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="RRHH">RRHH</button>
-							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Soporte Tecnico">Soporte Tecnico</button>
+							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Soporte Técnico">Soporte Técnico</button>
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Ventas">Ventas</button>
 						</div>
 					</details>
@@ -140,6 +140,7 @@ import { Icon } from 'astro-icon/components';
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="PC">PC</button>
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Servidor">Servidor</button>
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Impresora">Impresora</button>
+							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Otro">Otro</button>
 						</div>
 					</details>
 
@@ -175,19 +176,14 @@ import { Icon } from 'astro-icon/components';
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Mantenimiento Preventivo">Mantenimiento Preventivo</button>
 						</div>
 					</details>
-				</div>
 
-			</div>
-
-			<!-- Fila inferior: Estatus + Botones Cancelar y Confirmar -->
-			<div class="pt-3 flex-col sm:flex-row items-center justify-between gap-3 mt-1">
-				<div class="w-full sm:w-60">
+					<!-- Estatus -->
 					<details class="custom-dropdown relative group" data-field="estatus" data-placeholder="Estatus">
 						<summary class="flex items-center justify-between w-full px-3 py-1.5 text-sm rounded-xl bg-[#0e1726] text-white border border-teal-300/50 hover:border-teal-300 cursor-pointer transition-colors list-none [&::-webkit-details-marker]:hidden select-none">
 							<span class="dropdown-label text-slate-300 text-xs">Estatus</span>
 							<Icon name="lucide:chevron-down" class="w-4 h-4 text-teal-300 transition-transform duration-200 group-open:rotate-180" />
 						</summary>
-						<div class="absolute left-0 right-0 bottom-full mb-1.5 z-50 bg-[#0e1726] border border-teal-300/50 rounded-xl shadow-xl shadow-black/80 py-1 overflow-hidden backdrop-blur-md">
+						<div class="absolute left-0 right-0 mt-1.5 z-50 bg-[#0e1726] border border-teal-300/50 rounded-xl shadow-xl shadow-black/80 py-1 overflow-hidden backdrop-blur-md">
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Concluido">Concluidos</button>
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="En Proceso">En proceso</button>
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Pendiente">Pendiente</button>
@@ -195,25 +191,77 @@ import { Icon } from 'astro-icon/components';
 					</details>
 				</div>
 
-				<div class="flex items-center gap-2.5 w-full sm:w-auto justify-end">
-					<button
-						type="button"
-						id="btn-cancelar-modal"
-						class="font-bold flex items-center gap-1.5 px-4 py-1.5 justify-center rounded-xl bg-rose-500/20 text-rose-200 hover:text-white hover:bg-rose-500/30 border border-rose-400/40 shadow-2xl shadow-rose-600/80 backdrop-blur-md cursor-pointer transition-all duration-200 hover:scale-105 active:scale-95 text-xs"
-					>
-						<Icon name="lucide:x" class="w-4 h-4" />
-						<span>Cancelar</span>
-					</button>
+			</div>
 
-					<button
-						type="button"
-						id="btn-confirmar"
-						class="font-bold flex items-center gap-1.5 px-5 py-1.5 justify-center rounded-xl bg-teal-300 text-[#0e1726] cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95 text-xs shadow-lg shadow-teal-300/20"
+			<!-- Campo de Evidencia Fotográfica -->
+			<div class="flex flex-col gap-1.5 pt-1">
+				<span class="text-[11px] font-semibold text-teal-300/80 uppercase tracking-wider">
+					Evidencia Fotográfica
+				</span>
+
+				<div class="relative flex flex-wrap items-center gap-3">
+					<!-- Input oculto visualmente pero accesible por teclado -->
+					<input
+						type="file"
+						id="input-foto"
+						name="evidencia_foto"
+						accept="image/*"
+						class="sr-only peer"
+					/>
+
+					<!-- Botón para seleccionar archivo -->
+					<label
+						for="input-foto"
+						id="label-subir-foto"
+						class="shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl border border-dashed border-teal-300/60 hover:border-teal-300 bg-teal-300/5 hover:bg-teal-300/10 text-teal-300 text-xs font-medium cursor-pointer transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-teal-300 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[#0e1727]"
 					>
-						<Icon name="lucide:check-circle" class="w-4 h-4 stroke-[2.5]" />
-						<span>Confirmar</span>
-					</button>
+						<Icon name="lucide:image-plus" class="w-4 h-4" aria-hidden="true" />
+						<span id="texto-subir-foto">Subir imagen</span>
+					</label>
+
+					<!-- Previsualización -->
+					<div
+						id="preview-foto-box"
+						class="hidden items-center gap-2 min-w-0 bg-[#0e1727] px-2 py-1 rounded-xl border border-teal-300/40"
+					>
+						<img
+							id="img-preview"
+							alt="Vista previa de la evidencia"
+							class="w-7 h-7 shrink-0 rounded-lg object-cover border border-teal-300/50"
+						/>
+						<span id="nombre-foto" class="text-xs text-slate-300 truncate max-w-36"></span>
+						<button
+							type="button"
+							id="btn-quitar-foto"
+							class="p-1 shrink-0 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+							title="Quitar foto"
+							aria-label="Quitar foto"
+						>
+							<Icon name="lucide:trash-2" class="w-3.5 h-3.5" aria-hidden="true" />
+						</button>
+					</div>
 				</div>
+			</div>
+
+			<!-- Fila inferior: Botones Cancelar y Confirmar -->
+			<div class="pt-3 flex items-center justify-end gap-2.5 mt-1 border-t border-teal-300/20">
+				<button
+					type="button"
+					id="btn-cancelar-modal"
+					class="font-bold flex items-center gap-1.5 px-4 py-1.5 justify-center rounded-xl bg-rose-500/20 text-rose-200 hover:text-white hover:bg-rose-500/30 border border-rose-400/40 shadow-2xl shadow-rose-600/80 backdrop-blur-md cursor-pointer transition-all duration-200 hover:scale-105 active:scale-95 text-xs"
+				>
+					<Icon name="lucide:x" class="w-4 h-4" />
+					<span>Cancelar</span>
+				</button>
+
+				<button
+					type="button"
+					id="btn-confirmar"
+					class="font-bold flex items-center gap-1.5 px-5 py-1.5 justify-center rounded-xl bg-teal-300 text-[#0e1726] cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95 text-xs shadow-lg shadow-teal-300/20"
+				>
+					<Icon name="lucide:check-circle" class="w-4 h-4 stroke-[2.5]" />
+					<span>Confirmar</span>
+				</button>
 			</div>
 		</form>
 	</div>

@@ -5,7 +5,7 @@ import { Icon } from "astro-icon/components";
 <div class="mt-6 2xl:mt-8 flex flex-col gap-2 2xl:gap-3">
 
 	<div class="flex items-center justify-between mb-1 px-1">
-		<div class="border border-teal-300/50 rounded-xl px-3 py-1 2xl:px-3.5 2xl:py-1.5 bg-[#0e1627]/50">
+		<div class="backdrop-blur-sm border border-teal-300/50 rounded-xl px-3 py-1 2xl:px-3.5 2xl:py-1.5 bg-[#0e1627]/30">
 			<h2 class="text-sm 2xl:text-base font-bold text-teal-300">Historial de Mantenimientos</h2>
 			<p class="text-xs 2xl:text-sm text-white">Equipos registrados en bitácora</p>
 		</div>
@@ -20,7 +20,7 @@ import { Icon } from "astro-icon/components";
 		</button>
 	</div>
 
-	<div class="grid grid-cols-[90px_1.2fr_1.5fr_1.2fr_125px_75px_75px] 2xl:grid-cols-[110px_1.2fr_1.6fr_1.3fr_140px_85px_85px] gap-4 px-5 py-2 2xl:px-6 2xl:py-3 text-teal-300 text-[13px] 2xl:text-sm font-semibold select-none text-shadow-lg text-shadow-teal-600 border border-teal-300/50 rounded-2xl bg-[#0e1627]/50 shadow-2xl shadow-[#0e1726]">
+	<div class="grid grid-cols-[90px_1.2fr_1.5fr_1.2fr_125px_75px_75px] 2xl:grid-cols-[110px_1.2fr_1.6fr_1.3fr_140px_85px_85px] gap-4 px-5 py-2 2xl:px-6 2xl:py-3 text-teal-300 text-[14px] 2xl:text-sm font-semibold select-none text-shadow-lg text-shadow-teal-600 border border-teal-300/50 rounded-2xl bg-[#0e1627]/50 shadow-2xl shadow-[#0e1726]">
 		<span>Fecha</span>
 		<span>Área / Sucursal</span>
 		<span>Equipo & Modelo</span>
@@ -35,16 +35,16 @@ import { Icon } from "astro-icon/components";
 			<template id="template-registro">
 				<div class="tarjeta-registro grid grid-cols-[90px_1.2fr_1.5fr_1.2fr_125px_75px_75px] 2xl:grid-cols-[110px_1.2fr_1.6fr_1.3fr_140px_85px_85px] gap-4 items-center px-5 py-2 2xl:px-6 2xl:py-3 rounded-2xl border border-teal-300/40 bg-[#0e1727]/50 shadow-lg shadow-black/40 hover:border-teal-300 hover:bg-[#0e1726]/80 transition-all duration-200">
 					<div>
-						<span data-slot="fecha" class="text-slate-200 font-medium text-xs 2xl:text-sm">07/11/2026</span>
+						<span data-slot="fecha" class="text-slate-200 font-medium text-sm 2xl:text-sm">07/11/2026</span>
 					</div>
 
 					<div class="min-w-0">
-						<div class="flex items-center gap-1.5 font-bold text-white text-xs 2xl:text-sm">
+						<div class="flex items-center gap-1.5 font-bold text-white text-[13px] 2xl:text-sm">
 							<Icon name="lucide:building-2" class="w-3.5 h-3.5 2xl:w-4 2xl:h-4 text-teal-300 shrink-0" />
 							<span data-slot="area" class="truncate">Contabilidad</span>
 						</div>
 
-						<div class="flex items-center gap-1.5 text-[11px] 2xl:text-xs text-slate-400 mt-0.5">
+						<div class="flex items-center gap-1.5 text-[13px] 2xl:text-xs text-slate-400 mt-0.5">
 							<Icon name="lucide:users" class="w-3.5 h-3.5 text-slate-400 shrink-0" />
 							<span data-slot="persona" class="truncate">Usuario</span>
 						</div>
@@ -61,7 +61,7 @@ import { Icon } from "astro-icon/components";
 						</div>
 						
 						<div class="overflow-hidden">
-							<p data-slot="marcaModelo" class="font-bold text-white text-xs 2xl:text-sm truncate">Gigabyte</p>
+							<p data-slot="marcaModelo" class="font-bold text-white text-[13px] 2xl:text-sm truncate">Gigabyte</p>
 							
 							<div class="flex items-center gap-1.5 text-[11px] 2xl:text-xs text-slate-400 mt-0.5">
 								<Icon name="lucide:computer" class="w-3 h-3 2xl:w-3.5 2xl:h-3.5 text-slate-400 shrink-0" />
@@ -76,7 +76,7 @@ import { Icon } from "astro-icon/components";
 					</div>
 
 					<div class="min-w-0">
-						<p data-slot="tipoServicio" class="font-medium text-slate-200 text-xs 2xl:text-sm truncate">Mantenimiento Preventivo</p>
+						<p data-slot="tipoServicio" class="font-medium text-slate-200 text-[13px] 2xl:text-sm truncate">Mantenimiento Preventivo</p>
 						
 						
 						<p class="text-[11px] 2xl:text-xs text-slate-400 mt-0.5">Téc: Admin TI</p>
@@ -90,7 +90,7 @@ import { Icon } from "astro-icon/components";
 					</div>
 
 					<div class="flex justify-center">
-						<div class="w-9 h-9 2xl:w-10 2xl:h-10 rounded-lg border border-teal-300/40 bg-teal-950/60 flex items-center justify-center overflow-hidden cursor-pointer hover:border-teal-300 transition-colors shadow-sm">
+						<div data-slot="evidencia" class="w-9 h-9 2xl:w-10 2xl:h-10 rounded-lg border border-teal-300/40 bg-teal-950/60 flex items-center justify-center overflow-hidden cursor-pointer hover:border-teal-300 transition-colors shadow-sm">
 							<Icon name="lucide:image" class="w-4 h-4 2xl:w-5 2xl:h-5 text-teal-300/80" />
 						</div>
 					</div>
