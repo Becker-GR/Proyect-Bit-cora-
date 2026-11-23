@@ -73,8 +73,30 @@ confirmarBorrado?.addEventListener('click', (e) => {
 
 btnCancelarBorrado?.addEventListener('click', cerrarConfirmacionBorrado);
 
-btnConfirmarBorrado?.addEventListener('click', () => {
+btnConfirmarBorrado?.addEventListener('click', async () => {
 	if (!tarjetaAEliminar) return;
+
+	const id = tarjetaAEliminar.dataset.id;
+	if (id) {
+		try {
+			btnConfirmarBorrado.textContent = 'Eliminando...';
+			const res = await fetch('/api/bitacora', {
+				method: 'DELETE',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ id }),
+			});
+			if (!res.ok) {
+				const err = await res.json();
+				throw new Error(err.error || 'Error al eliminar');
+			}
+		} catch (err: any) {
+			mostrarSnackbar(`Error: ${err.message}`, 'error');
+			btnConfirmarBorrado.textContent = 'Eliminar';
+			return;
+		} finally {
+			btnConfirmarBorrado.textContent = 'Eliminar';
+		}
+	}
 
 	if (tarjetaAEliminar === tarjetaEnEdicion) {
 		cerrarModal();
@@ -266,7 +288,7 @@ contenedor?.addEventListener('click', (e) => {
 const getDropdownVal = (field: string) =>
 	document.querySelector<HTMLElement>(`.custom-dropdown[data-field="${field}"]`)?.dataset.value || '';
 
-btnConfirmar?.addEventListener('click', () => {
+btnConfirmar?.addEventListener('click', async () => {
 	const fechaRaw = document.querySelector<HTMLInputElement>('input[name="fecha"]')?.value || '';
 	const fecha = fechaRaw ? fechaRaw.split('-').reverse().join('/') : '';
 
@@ -310,7 +332,7 @@ btnConfirmar?.addEventListener('click', () => {
 		}
 	};
 
-	const llenarTarjeta = (objetivo: ParentNode) => {
+	const llenarTarjeta = (objetivo: ParentNode, evidenciaUrl?: string | null) => {
 		const setSlot = (slot: string, texto: string) => {
 			const el = objetivo.querySelector(`[data-slot="${slot}"]`);
 			if (el) el.textContent = texto;
@@ -340,30 +362,81 @@ btnConfirmar?.addEventListener('click', () => {
 		// Slot de evidencia fotográfica
 		const evidenciaEl = objetivo.querySelector<HTMLElement>('[data-slot="evidencia"]');
 		if (evidenciaEl) {
-			if (fotoActualDataUrl) {
-				evidenciaEl.innerHTML = `<img src="${fotoActualDataUrl}" alt="Evidencia" class="w-full h-full object-cover" />`;
+			const urlFinal = evidenciaUrl || fotoActualDataUrl;
+			if (urlFinal) {
+				evidenciaEl.innerHTML = `<img src="${urlFinal}" alt="Evidencia" class="w-full h-full object-cover" />`;
 			} else {
 				evidenciaEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-300/80"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>`;
 			}
 		}
 	};
 
-	if (tarjetaEnEdicion) {
-		llenarTarjeta(tarjetaEnEdicion);
-		tarjetaEnEdicion = null;
-		mostrarSnackbar('Tarjeta actualizada correctamente.', 'editado');
-	} else {
-		const template = document.getElementById('template-registro') as HTMLTemplateElement | null;
-		if (template && contenedor) {
-			const clone = template.content.cloneNode(true) as DocumentFragment;
-			llenarTarjeta(clone);
-			contenedor.prepend(clone);
-			mostrarSnackbar('Tarjeta guardada correctamente.', 'exito');
-		} else {
-			mostrarSnackbar('Error: No se pudo guardar la tarjeta.', 'error');
-		}
+	// Preparar datos para enviar al servidor
+	const formData = new FormData();
+	formData.append('fecha', registro.fecha);
+	formData.append('sucursal', registro.sucursal);
+	formData.append('area', registro.area);
+	formData.append('persona', registro.persona);
+	formData.append('tipoEquipo', registro.tipoEquipo);
+	formData.append('marcaModelo', registro.marcaModelo);
+	formData.append('serie', registro.serie);
+	formData.append('tipoServicio', registro.tipoServicio);
+	formData.append('estatus', registro.estatus);
+	formData.append('perfilTecnico', 'Admin TI');
+
+	const archivoFoto = inputFoto?.files?.[0];
+	if (archivoFoto) {
+		formData.append('foto', archivoFoto);
+	} else if (tarjetaEnEdicion && !fotoActualDataUrl) {
+		formData.append('eliminarFoto', 'true');
 	}
 
-	window.dispatchEvent(new CustomEvent('actualizar-metricas'));
-	cerrarModal();
+	const btnTextoOriginal = btnConfirmar.innerHTML;
+	btnConfirmar.textContent = 'Guardando...';
+	btnConfirmar.style.pointerEvents = 'none';
+
+	try {
+		if (tarjetaEnEdicion) {
+			const id = tarjetaEnEdicion.dataset.id;
+			if (id) formData.append('id', id);
+
+			const res = await fetch('/api/bitacora', {
+				method: 'PUT',
+				body: formData,
+			});
+			const resData = await res.json();
+			if (!res.ok) throw new Error(resData.error || 'Error al actualizar');
+
+			llenarTarjeta(tarjetaEnEdicion, resData.data?.evidencia_url);
+			tarjetaEnEdicion = null;
+			mostrarSnackbar('Tarjeta actualizada correctamente.', 'editado');
+		} else {
+			const res = await fetch('/api/bitacora', {
+				method: 'POST',
+				body: formData,
+			});
+			const resData = await res.json();
+			if (!res.ok) throw new Error(resData.error || 'Error al guardar');
+
+			const template = document.getElementById('template-registro') as HTMLTemplateElement | null;
+			if (template && contenedor) {
+				const clone = template.content.cloneNode(true) as DocumentFragment;
+				const tarjeta = clone.querySelector<HTMLElement>('.tarjeta-registro');
+				if (tarjeta && resData.data?.id) {
+					tarjeta.dataset.id = resData.data.id.toString();
+				}
+				llenarTarjeta(clone, resData.data?.evidencia_url);
+				contenedor.prepend(clone);
+				mostrarSnackbar('Tarjeta guardada correctamente en Supabase.', 'exito');
+			}
+		}
+
+		window.dispatchEvent(new CustomEvent('actualizar-metricas'));
+		cerrarModal();
+	} catch (err: any) {
+		mostrarSnackbar(`Error: ${err.message}`, 'error');
+	} finally {
+		btnConfirmar.innerHTML = btnTextoOriginal;
+		btnConfirmar.style.pointerEvents = 'auto';
+	}
 });

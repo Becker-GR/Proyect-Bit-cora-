@@ -4,11 +4,18 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import vercel from '@astrojs/vercel';
+import { loadEnv } from 'vite';
 
 import icon from 'astro-icon';
 
+const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), '');
+Object.assign(process.env, env);
+
 // https://astro.build/config
 export default defineConfig({
+    output: 'server',
+    adapter: vercel(),
     site: 'https://example.com',
     integrations: [mdx(), sitemap(), icon()],
     vite: {

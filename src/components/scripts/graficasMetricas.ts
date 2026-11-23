@@ -75,14 +75,15 @@ if (ctxEquipos) {
 	chartEquipos = new Chart(ctxEquipos, {
 		type: 'bar',
 		data: {
-			labels: ['Laptop', 'PC', 'Servidor', 'Impresora'],
+			labels: ['Laptop', 'PC', 'Servidor', 'Impresora', 'Otro'],
 			datasets: [{
-				data: [0, 0, 0, 0],
+				data: [0, 0, 0, 0, 0],
 				backgroundColor: [
 					'#a855f7',
 					'#22d3ee',
 					'#34d399',
 					'#2f1095',
+					'#f59e0b',
 				],
 				borderRadius: 5
 			}]
@@ -171,6 +172,7 @@ function actualizarMetricas() {
 	let pcs = 0;
 	let servidores = 0;
 	let impresoras = 0;
+	let otros = 0;
 
 	const conteoSem1 = [0, 0, 0, 0, 0, 0];
 	const conteoSem2 = [0, 0, 0, 0, 0, 0];
@@ -186,6 +188,7 @@ function actualizarMetricas() {
 		else if (equipo === 'pc' || equipo.includes('pc') || equipo.includes('escritorio')) pcs++;
 		else if (equipo.includes('servidor')) servidores++;
 		else if (equipo.includes('impresora')) impresoras++;
+		else if (equipo) otros++;
 
 		const fechaTexto = tarjeta.querySelector('[data-slot="fecha"]')?.textContent?.trim() || '';
 		const partes = fechaTexto.split('/');
@@ -220,7 +223,7 @@ function actualizarMetricas() {
 
 	// 2. Actualizar gráfica de Equipos
 	if (chartEquipos) {
-		chartEquipos.data.datasets[0].data = [laptops, pcs, servidores, impresoras];
+		chartEquipos.data.datasets[0].data = [laptops, pcs, servidores, impresoras, otros];
 		chartEquipos.update();
 	}
 

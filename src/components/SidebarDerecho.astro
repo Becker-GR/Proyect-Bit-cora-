@@ -103,6 +103,7 @@ import { Icon } from 'astro-icon/components';
 						<div class="absolute left-0 right-0 mt-1.5 z-50 bg-[#0e1726] border border-teal-300/50 rounded-xl shadow-xl shadow-black/80 py-1 overflow-hidden backdrop-blur-md max-h-48 overflow-y-auto">
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Almacén">Almacén</button>
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Cajas">Cajas</button>
+							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Caseta">Caseta</button>
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Contabilidad">Contabilidad</button>
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Flotilla">Flotilla</button>
 							<button type="button" class="w-full text-left px-3 py-1.5 text-xs text-slate-200 hover:bg-teal-300/20 hover:text-teal-300 transition-colors cursor-pointer dropdown-option" data-value="Logística">Logística</button>
@@ -130,7 +131,7 @@ import { Icon } from 'astro-icon/components';
 					<span class="text-[11px] font-semibold text-teal-300/80 uppercase tracking-wider">Datos del Equipo</span>
 
 					<!-- Tipo de Equipo -->
-					<details class="custom-dropdown relative group" data-field="tipoEquipo" data-placeholder="Equipo">
+					<details class="custom-dropdown relative group" data-field="tipoEquipo" data-placeholder="Tipo de Equipo">
 						<summary class="flex items-center justify-between w-full px-3 py-1.5 text-sm rounded-xl bg-[#0e1726] text-white border border-teal-300/50 hover:border-teal-300 cursor-pointer transition-colors list-none [&::-webkit-details-marker]:hidden select-none">
 							<span class="dropdown-label text-slate-300 text-xs">Tipo de Equipo</span>
 							<Icon name="lucide:chevron-down" class="w-4 h-4 text-teal-300 transition-transform duration-200 group-open:rotate-180" />
@@ -167,7 +168,7 @@ import { Icon } from 'astro-icon/components';
 					</div>
 
 					<!-- Tipo de Servicio -->
-					<details class="custom-dropdown relative group" data-field="tipoServicio" data-placeholder="Servicio">
+					<details class="custom-dropdown relative group" data-field="tipoServicio" data-placeholder="Tipo de Servicio">
 						<summary class="flex items-center justify-between w-full px-3 py-1.5 text-sm rounded-xl bg-[#0e1726] text-white border border-teal-300/50 hover:border-teal-300 cursor-pointer transition-colors list-none [&::-webkit-details-marker]:hidden select-none">
 							<span class="dropdown-label text-slate-300 text-xs">Tipo de Servicio</span>
 							<Icon name="lucide:chevron-down" class="w-4 h-4 text-teal-300 transition-transform duration-200 group-open:rotate-180" />
@@ -196,7 +197,7 @@ import { Icon } from 'astro-icon/components';
 			<!-- Campo de Evidencia Fotográfica -->
 			<div class="flex flex-col gap-1.5 pt-1">
 				<span class="text-[11px] font-semibold text-teal-300/80 uppercase tracking-wider">
-					Evidencia Fotográfica
+					Evidencia Fotográfica <span class="text-slate-400 font-normal normal-case">(Opcional)</span>
 				</span>
 
 				<div class="relative flex flex-wrap items-center gap-3">

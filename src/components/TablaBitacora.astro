@@ -1,5 +1,16 @@
 ---
 import { Icon } from "astro-icon/components";
+
+import { supabase } from "../lib/supabase";
+
+const { data: registros, error } = await supabase
+	.from('bitacora')
+	.select('*')
+	.order('created_at', { ascending: false });
+
+if (error) {
+	console.error("Error cargando bitácora:", error.message);
+}
 ---
 
 <div class="mt-6 2xl:mt-8 flex flex-col gap-2 2xl:gap-3">
@@ -40,36 +51,36 @@ import { Icon } from "astro-icon/components";
 
 					<div class="min-w-0">
 						<div class="flex items-center gap-1.5 font-bold text-white text-[13px] 2xl:text-sm">
-							<Icon name="lucide:building-2" class="w-3.5 h-3.5 2xl:w-4 2xl:h-4 text-teal-300 shrink-0" />
+							<Icon name="lucide:building-2" is:inline class="w-3.5 h-3.5 2xl:w-4 2xl:h-4 text-teal-300 shrink-0" />
 							<span data-slot="area" class="truncate">Contabilidad</span>
 						</div>
 
 						<div class="flex items-center gap-1.5 text-[13px] 2xl:text-xs text-slate-400 mt-0.5">
-							<Icon name="lucide:users" class="w-3.5 h-3.5 text-slate-400 shrink-0" />
+							<Icon name="lucide:users" is:inline class="w-3.5 h-3.5 text-slate-400 shrink-0" />
 							<span data-slot="persona" class="truncate">Usuario</span>
 						</div>
 
 						<div class="flex items-center gap-1.5 text-[11px] 2xl:text-xs text-slate-400 mt-0.5">
-							<Icon name="lucide:map-pin" class="w-3.5 h-3.5 text-slate-400 shrink-0" />
+							<Icon name="lucide:map-pin" is:inline class="w-3.5 h-3.5 text-slate-400 shrink-0" />
 							<span data-slot="sucursal" class="truncate">209</span>
 						</div>
 					</div>
 
 					<div class="flex items-center gap-2.5 2xl:gap-3 min-w-0">
 						<div class="w-8 h-8 2xl:w-10 2xl:h-10 rounded-lg bg-teal-300/10 border border-teal-300/50 flex items-center justify-center shrink-0">
-							<Icon name="lucide:monitor" class="w-4 h-4 2xl:w-5 2xl:h-5 text-teal-300" />
+							<Icon name="lucide:monitor" is:inline class="w-4 h-4 2xl:w-5 2xl:h-5 text-teal-300" />
 						</div>
 						
 						<div class="overflow-hidden">
 							<p data-slot="marcaModelo" class="font-bold text-white text-[13px] 2xl:text-sm truncate">Gigabyte</p>
 							
 							<div class="flex items-center gap-1.5 text-[11px] 2xl:text-xs text-slate-400 mt-0.5">
-								<Icon name="lucide:computer" class="w-3 h-3 2xl:w-3.5 2xl:h-3.5 text-slate-400 shrink-0" />
+								<Icon name="lucide:computer" is:inline class="w-3 h-3 2xl:w-3.5 2xl:h-3.5 text-slate-400 shrink-0" />
 								<span data-slot="tipoEquipo" class="truncate">PC de Escritorio</span>
 							</div>
 
 							<div class="flex items-center gap-1.5 text-[11px] 2xl:text-xs text-slate-400 mt-0.5">
-								<Icon name="lucide:barcode" class="w-3.5 h-3.5 text-slate-400 shrink-0" />
+								<Icon name="lucide:barcode" is:inline class="w-3.5 h-3.5 text-slate-400 shrink-0" />
 								<span class="truncate">S/N <span data-slot="serie" class="text-slate-300">565673</span></span>
 							</div>
 						</div>
@@ -91,7 +102,7 @@ import { Icon } from "astro-icon/components";
 
 					<div class="flex justify-center">
 						<div data-slot="evidencia" class="w-9 h-9 2xl:w-10 2xl:h-10 rounded-lg border border-teal-300/40 bg-teal-950/60 flex items-center justify-center overflow-hidden cursor-pointer hover:border-teal-300 transition-colors shadow-sm">
-							<Icon name="lucide:image" class="w-4 h-4 2xl:w-5 2xl:h-5 text-teal-300/80" />
+							<Icon name="lucide:image" is:inline class="w-4 h-4 2xl:w-5 2xl:h-5 text-teal-300/80" />
 						</div>
 					</div>
 
@@ -102,18 +113,115 @@ import { Icon } from "astro-icon/components";
 							class="btn-editar-tarjeta p-1.5 rounded-lg text-slate-300 hover:text-teal-300 hover:bg-teal-300/10 transition-colors cursor-pointer"
 							title="Editar registro"
 						>
-							<Icon name="lucide:pencil" class="w-4 h-4 2xl:w-18px 2xl:h-18px" />
+							<Icon name="lucide:pencil" is:inline class="w-4 h-4 2xl:w-18px 2xl:h-18px" />
 						</button>
 						<button
 							type="button"
 							class="btn-borrar-tarjeta p-1.5 rounded-lg text-slate-300 hover:text-rose-400 hover:bg-rose-400/10 transition-colors cursor-pointer"
 							title="Eliminar registro"
 						>
-							<Icon name="lucide:trash" class="w-4 h-4 2xl:w-18px 2xl:h-18px" />
+							<Icon name="lucide:trash" is:inline class="w-4 h-4 2xl:w-18px 2xl:h-18px" />
 						</button>
 					</div>
 				</div>
 			</template>
+
+			{registros && registros.map((reg: any) => {
+				const estatusLower = (reg.estatus || '').toLowerCase().trim();
+				const estiloBadge = estatusLower === 'concluido' || estatusLower === 'concluidos'
+					? { badge: 'border-teal-400/40 bg-teal-400/10 text-teal-300', dot: 'bg-teal-400' }
+					: estatusLower === 'en proceso'
+					? { badge: 'border-cyan-400/40 bg-cyan-400/10 text-cyan-300', dot: 'bg-cyan-400' }
+					: { badge: 'border-amber-400/40 bg-amber-400/10 text-amber-300', dot: 'bg-amber-400' };
+
+				return (
+					<div 
+						class="tarjeta-registro grid grid-cols-[90px_1.2fr_1.5fr_1.2fr_125px_75px_75px] 2xl:grid-cols-[110px_1.2fr_1.6fr_1.3fr_140px_85px_85px] gap-4 items-center px-5 py-2 2xl:px-6 2xl:py-3 rounded-2xl border border-teal-300/40 bg-[#0e1727]/50 shadow-lg shadow-black/40 hover:border-teal-300 hover:bg-[#0e1726]/80 transition-all duration-200"
+						data-id={reg.id}
+					>
+						<div>
+							<span data-slot="fecha" class="text-slate-200 font-medium text-sm 2xl:text-sm">{reg.fecha}</span>
+						</div>
+
+						<div class="min-w-0">
+							<div class="flex items-center gap-1.5 font-bold text-white text-[13px] 2xl:text-sm">
+								<Icon name="lucide:building-2" is:inline class="w-3.5 h-3.5 2xl:w-4 2xl:h-4 text-teal-300 shrink-0" />
+								<span data-slot="area" class="truncate">{reg.area}</span>
+							</div>
+
+							<div class="flex items-center gap-1.5 text-[13px] 2xl:text-xs text-slate-400 mt-0.5">
+								<Icon name="lucide:users" is:inline class="w-3.5 h-3.5 text-slate-400 shrink-0" />
+								<span data-slot="persona" class="truncate">{reg.trabajador_asignado}</span>
+							</div>
+
+							<div class="flex items-center gap-1.5 text-[11px] 2xl:text-xs text-slate-400 mt-0.5">
+								<Icon name="lucide:map-pin" is:inline class="w-3.5 h-3.5 text-slate-400 shrink-0" />
+								<span data-slot="sucursal" class="truncate">{reg.sucursal}</span>
+							</div>
+						</div>
+
+						<div class="flex items-center gap-2.5 2xl:gap-3 min-w-0">
+							<div class="w-8 h-8 2xl:w-10 2xl:h-10 rounded-lg bg-teal-300/10 border border-teal-300/50 flex items-center justify-center shrink-0">
+								<Icon name="lucide:monitor" is:inline class="w-4 h-4 2xl:w-5 2xl:h-5 text-teal-300" />
+							</div>
+							
+							<div class="overflow-hidden">
+								<p data-slot="marcaModelo" class="font-bold text-white text-[13px] 2xl:text-sm truncate">{reg.marca_modelo}</p>
+								
+								<div class="flex items-center gap-1.5 text-[11px] 2xl:text-xs text-slate-400 mt-0.5">
+									<Icon name="lucide:computer" is:inline class="w-3 h-3 2xl:w-3.5 2xl:h-3.5 text-slate-400 shrink-0" />
+									<span data-slot="tipoEquipo" class="truncate">{reg.tipo_equipo}</span>
+								</div>
+
+								<div class="flex items-center gap-1.5 text-[11px] 2xl:text-xs text-slate-400 mt-0.5">
+									<Icon name="lucide:barcode" is:inline class="w-3.5 h-3.5 text-slate-400 shrink-0" />
+									<span class="truncate">S/N <span data-slot="serie" class="text-slate-300">{reg.num_serie}</span></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="min-w-0">
+							<p data-slot="tipoServicio" class="font-medium text-slate-200 text-[13px] 2xl:text-sm truncate">{reg.tipo_servicio}</p>
+							<p class="text-[11px] 2xl:text-xs text-slate-400 mt-0.5">Téc: {reg.perfil_tecnico || 'Admin TI'}</p>
+						</div>
+						
+						<div class="flex justify-center">
+							<span data-slot="estatusBadge" class={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] 2xl:text-xs font-medium border ${estiloBadge.badge}`}>
+								<span data-slot="estatusDot" class={`w-1.5 h-1.5 rounded-full ${estiloBadge.dot}`}></span>
+								<span data-slot="estatusTexto">{reg.estatus}</span>
+							</span>
+						</div>
+
+						<div class="flex justify-center">
+							<div data-slot="evidencia" class="w-9 h-9 2xl:w-10 2xl:h-10 rounded-lg border border-teal-300/40 bg-teal-950/60 flex items-center justify-center overflow-hidden cursor-pointer hover:border-teal-300 transition-colors shadow-sm">
+								{reg.evidencia_url ? (
+									<img src={reg.evidencia_url} alt="Evidencia" class="w-full h-full object-cover" />
+								) : (
+									<Icon name="lucide:image" is:inline class="w-4 h-4 2xl:w-5 2xl:h-5 text-teal-300/80" />
+								)}
+							</div>
+						</div>
+
+						<!-- Botones de Acción -->
+						<div class="flex items-center justify-center gap-1 2xl:gap-1.5">
+							<button
+								type="button"
+								class="btn-editar-tarjeta p-1.5 rounded-lg text-slate-300 hover:text-teal-300 hover:bg-teal-300/10 transition-colors cursor-pointer"
+								title="Editar registro"
+							>
+								<Icon name="lucide:pencil" is:inline class="w-4 h-4 2xl:w-18px 2xl:h-18px" />
+							</button>
+							<button
+								type="button"
+								class="btn-borrar-tarjeta p-1.5 rounded-lg text-slate-300 hover:text-rose-400 hover:bg-rose-400/10 transition-colors cursor-pointer"
+								title="Eliminar registro"
+							>
+								<Icon name="lucide:trash" is:inline class="w-4 h-4 2xl:w-18px 2xl:h-18px" />
+							</button>
+						</div>
+					</div>
+				);
+			})}
 
 	</div>
 
